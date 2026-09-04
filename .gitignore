@@ -1,0 +1,17 @@
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+backend/audit.db
+
+# node
+node_modules/
+frontend/dist/
+
+# built UI is generated at deploy time
+backend/static/
+
+# env
+.env
+.env.*
