@@ -1,0 +1,16 @@
+.git
+.github
+**/node_modules
+frontend/dist
+backend/static
+backend/audit.db
+backend/__pycache__
+**/__pycache__
+*.pyc
+.venv
+venv
+.env
+.env.*
+docs
+*.md
+!README.md

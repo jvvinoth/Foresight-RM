@@ -178,9 +178,17 @@ def integrity():
     return {"traps": TRAPS, "verify": "python backend/verify.py"}
 
 
+@app.on_event("startup")
+def warm() -> None:
+    """Compute the whole book once so the first request is instant."""
+    engine.run_book()
+
+
 # ---------------------------------------------------------------- static UI
-if STATIC_DIR.exists():
+if (STATIC_DIR / "assets").is_dir():
     app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
+
+if STATIC_DIR.exists():
 
     @app.get("/{full_path:path}")
     def spa(full_path: str):
