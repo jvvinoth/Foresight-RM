@@ -7,6 +7,7 @@ import { Outlook } from '../components/Outlook'
 import { Reveal } from '../components/Reveal'
 import { Eyebrow, GateBadge, usd } from '../components/ui'
 import { AGENTS } from '../data/agents'
+import { CLIENT_AVATARS, DEFAULT_AVATAR } from '../data/avatars'
 import {
   approve,
   generateDraft,
@@ -74,14 +75,27 @@ export default function Client() {
 
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-iron-400 pb-5">
         <div>
-          <div className="flex flex-wrap items-center gap-3">
-            <h1 className="font-display text-[30px] leading-none text-jb-900">
-              {client.data?.name ?? '…'}
-            </h1>
-            <span className="font-mono text-[11px] text-jb-300">{id}</span>
-            {client.data && <GateBadge gate={client.data.gate} size="md" />}
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Unified Client Portrait Avatar */}
+            <div className="relative shrink-0">
+              <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-jb-300 bg-white p-0.5 shadow-sm">
+                <img
+                  src={CLIENT_AVATARS[id] || DEFAULT_AVATAR}
+                  alt={client.data?.name ?? 'Client'}
+                  className="h-full w-full rounded-full object-cover"
+                />
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap items-baseline gap-3">
+              <h1 className="font-display text-[30px] leading-none text-jb-900">
+                {client.data?.name ?? '…'}
+              </h1>
+              <span className="font-mono text-[11px] text-jb-300">{id}</span>
+              {client.data && <GateBadge gate={client.data.gate} size="md" />}
+            </div>
           </div>
-          <p className="mt-2 max-w-[66ch] text-[13.5px] text-jb-500">{rel?.objectives}</p>
+          <p className="mt-3 max-w-[66ch] text-[13.5px] text-jb-500">{rel?.objectives}</p>
         </div>
         <div className="flex gap-7">
           <div>
