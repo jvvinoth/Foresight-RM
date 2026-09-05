@@ -64,9 +64,9 @@ s.addText([
   {text:'He owes HKD 60m to a project in November.',options:{bullet:true}}],
   {x:0.85,y:3.9,w:4.9,h:2.0,fontFace:B,fontSize:15,color:'A3B1E5',paraSpaceAfter:9,isTextBox:true,margin:0})
 s.addImage({path:S+'c-reveal-after.png',x:6.15,y:1.55,w:6.5,h:2.6})
-s.addText('Mandate limit for a single position: 10%',
-  {x:6.15,y:4.35,w:6.5,h:0.4,fontFace:H,fontSize:14.5,color:'C9A94A',charSpacing:1,isTextBox:true,margin:0})
-s.addNotes('One click resolves the six positions into a single correlated bet: 49.0% of wealth against a 10% single-position limit, plus three exposures held outside the portfolio entirely. Pause after the limit figure.')
+s.addText('Three positions already breach the 12% single-position limit \u2014 and no mandate rule measures the other 49%',
+  {x:6.15,y:4.3,w:6.5,h:0.75,fontFace:H,fontSize:14.5,color:'C9A94A',charSpacing:0.8,lineSpacing:22,isTextBox:true,margin:0})
+s.addNotes('One click resolves the six positions into a single correlated bet. His mandate is Balanced, so the single-position limit is 12% (mandates.csv, BAL) \u2014 and three positions already breach it: the Mid-Levels apartment at 19.58%, a Pacific Rim Bank perpetual at 17.57%, and the Golden Harbour perpetual at 12.87%. The 49% is the aggregate across four correlated positions, which no mandate rule measures at all. That gap is the point. Pause after the limit figure.')
 
 /* 4 ─ why nobody saw it */
 s = p.addSlide(); s.background={color:W}
