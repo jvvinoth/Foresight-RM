@@ -866,22 +866,47 @@ export default function Dashboard() {
                   
                   {/* Active Recording State Visual */}
                   {!recordingSaved ? (
-                    <div className="flex flex-col items-center justify-center py-6 bg-iron-100/50 rounded-2xl border border-iron-200 gap-4">
+                    <div className="flex flex-col items-center justify-center py-6 bg-iron-100/50 rounded-2xl border border-iron-200 gap-4 relative overflow-hidden">
                       
-                      {/* Equalizer Soundwave Animation */}
-                      <div className="flex items-end justify-center gap-1.5 h-12 w-full">
-                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-1' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
-                        <div className={`w-1.5 rounded-full bg-jb-900 ${isRecording && !isPaused ? 'animate-wave-2' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
-                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-3' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
-                        <div className={`w-1.5 rounded-full bg-jb-900 ${isRecording && !isPaused ? 'animate-wave-4' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
-                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-5' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                      {/* Pulsing Ripple Mic Radar Wave backdrop */}
+                      <div className="relative flex items-center justify-center h-16 w-16 mb-1">
+                        <div className="absolute inset-0 rounded-full bg-signal-critical/5 animate-ping opacity-75" style={{ animationDuration: '2.5s' }} />
+                        <div className="absolute inset-2 rounded-full bg-signal-critical/10 animate-pulse" style={{ animationDuration: '1.5s' }} />
+                        <div className="relative h-12 w-12 rounded-full bg-signal-critical/10 flex items-center justify-center border border-signal-critical/20">
+                          <Mic size={18} className={`text-signal-critical ${isRecording && !isPaused ? 'animate-pulse' : ''}`} />
+                        </div>
+                      </div>
+
+                      {/* Equalizer Soundwave Animation (15 multi-frequency bars) */}
+                      <div className="flex items-end justify-center gap-1 h-12 w-full px-6">
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-1 h-10' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-2 h-12' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-3 h-6' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-4 h-10' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-5 h-8' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-2 h-12' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-1 h-6' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-3 h-10' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-5 h-8' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-4 h-6' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-2 h-12' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-1 h-10' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-3 h-6' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-jb-900 transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-5 h-8' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1 rounded-full bg-signal-gold transition-all duration-300 ${isRecording && !isPaused ? 'animate-wave-4 h-6' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
                       </div>
 
                       <div className="flex flex-col items-center gap-1">
                         <span className="font-mono text-[22px] font-bold text-jb-900 leading-none tracking-wider">
                           {Math.floor(recordSeconds / 60).toString().padStart(2, '0')}:{(recordSeconds % 60).toString().padStart(2, '0')}
                         </span>
-                        <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${isPaused ? 'text-signal-warn' : 'text-signal-critical animate-pulse'}`}>
+                        <span className={`text-[10px] font-mono uppercase tracking-wider font-bold flex items-center gap-1.5 ${isPaused ? 'text-signal-warn' : 'text-signal-critical'}`}>
+                          {isRecording && !isPaused && (
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-critical opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-signal-critical"></span>
+                            </span>
+                          )}
                           {isPaused ? 'Recording Paused' : 'Live Voice Capture...'}
                         </span>
                       </div>
