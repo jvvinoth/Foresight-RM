@@ -493,7 +493,7 @@ export default function Dashboard() {
         <div className="overflow-hidden rounded border border-iron-400 bg-white">
           <div className="grid grid-cols-[36px_1fr_120px_128px_112px] items-center gap-4 border-b border-iron-400 bg-iron-100 px-5 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
             <span>#</span>
-            <span>Client and reason</span>
+            <span>Client & reason</span>
             <span className="text-right">AUM</span>
             <span className="text-right">Last contact</span>
             <span className="text-right">Gate</span>
@@ -505,52 +505,84 @@ export default function Dashboard() {
             </div>
           )}
 
-          {clients.map((c) => (
-            <Link
-              key={c.id}
-              to={`/client/${c.id}`}
-              className="grid grid-cols-[36px_1fr_120px_128px_112px] items-center gap-4 border-b border-iron-300 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-jb-50 text-left"
-            >
-              <span className="tnum font-mono text-[12px] text-jb-300">
-                {String(c.rank).padStart(2, '0')}
-              </span>
+          {clients.map((c) => {
+            const avatar = CLIENT_AVATARS[c.id] || DEFAULT_AVATAR
 
-              <span className="min-w-0">
-                <span className="flex flex-wrap items-baseline gap-2">
-                  <span className="text-[14.5px] font-medium text-jb-900">{c.name}</span>
-                  <span className="font-mono text-[10px] text-jb-300">{c.id}</span>
-                  {c.language !== 'English' && (
-                    <span className="rounded-sm bg-jb-50 px-1.5 py-px text-[10.5px] text-jb-600">
-                      {c.language}
-                    </span>
-                  )}
-                  {c.kycOverdue && (
-                    <span className="rounded-sm bg-signal-warn/10 px-1.5 py-px font-mono text-[10px] uppercase tracking-[0.08em] text-signal-warn">
-                      KYC due
-                    </span>
-                  )}
-                </span>
-                <span className="mt-0.5 block truncate text-[12.5px] text-jb-500">{c.reason}</span>
-              </span>
+            // Calculate dynamic KYC days alert badge (30-day window relative to Sept 5, 2026)
+            const snapshotDate = new Date('2026-09-05')
+            let kycTag = null
+            if (c.kycDue) {
+              const dueDate = new Date(c.kycDue)
+              const diffTime = dueDate.getTime() - snapshotDate.getTime()
+              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-              <span className="tnum text-right font-mono text-[12.5px] text-jb-700">
-                {usd(c.aumUsd)}
-              </span>
+              if (diffDays < 0) {
+                kycTag = (
+                  <span className="rounded bg-signal-critical/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.06em] text-signal-critical font-bold shrink-0 border border-signal-critical/15 animate-pulse">
+                    KYC Overdue ({Math.abs(diffDays)}d)
+                  </span>
+                )
+              } else if (diffDays <= 30) {
+                kycTag = (
+                  <span className="rounded bg-signal-warn/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.06em] text-signal-warn font-bold shrink-0 border border-signal-warn/15">
+                    KYC Due ({diffDays}d)
+                  </span>
+                )
+              }
+            }
 
-              <span
-                className={`tnum flex items-center justify-end gap-1.5 text-right font-mono text-[12px] ${
-                  (c.lastContactDays ?? 0) > 150 ? 'text-signal-warn' : 'text-jb-400'
-                }`}
+            return (
+              <Link
+                key={c.id}
+                to={`/client/${c.id}`}
+                className="grid grid-cols-[36px_1fr_120px_128px_112px] items-center gap-4 border-b border-iron-300 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-jb-50 text-left"
               >
-                {(c.lastContactDays ?? 0) > 150 && <Clock size={12} />}
-                {c.lastContactDays ?? '—'}d
-              </span>
+                <span className="tnum font-mono text-[12px] text-jb-300">
+                  {String(c.rank).padStart(2, '0')}
+                </span>
 
-              <span className="flex justify-end">
-                <GateBadge gate={c.gate} />
-              </span>
-            </Link>
-          ))}
+                <span className="flex items-center gap-3 min-w-0">
+                  <img
+                    src={avatar}
+                    className="h-8 w-8 rounded-full border border-iron-200 object-cover shrink-0 shadow-3xs"
+                    alt={c.name}
+                  />
+                  <span className="min-w-0 flex flex-col justify-center">
+                    <span className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-[14px] font-medium text-jb-900 truncate">{c.name}</span>
+                      <span className="font-mono text-[10px] text-jb-300">{c.id}</span>
+                      {c.language !== 'English' && (
+                        <span className="rounded bg-jb-50 px-1.5 py-0.5 text-[10.5px] text-jb-600 font-sans shrink-0 border border-jb-100">
+                          {c.language}
+                        </span>
+                      )}
+                      {kycTag}
+                    </span>
+                    <span className="mt-0.5 block truncate text-[12.5px] text-jb-500 max-w-full">
+                      {c.reason}
+                    </span>
+                  </span>
+                </span>
+
+                <span className="tnum text-right font-mono text-[12.5px] text-jb-700">
+                  {usd(c.aumUsd)}
+                </span>
+
+                <span
+                  className={`tnum flex items-center justify-end gap-1.5 text-right font-mono text-[12px] ${
+                    (c.lastContactDays ?? 0) > 150 ? 'text-signal-warn' : 'text-jb-400'
+                  }`}
+                >
+                  {(c.lastContactDays ?? 0) > 150 && <Clock size={12} />}
+                  {c.lastContactDays ?? '—'}d
+                </span>
+
+                <span className="flex justify-end">
+                  <GateBadge gate={c.gate} />
+                </span>
+              </Link>
+            )
+          })}
         </div>
 
         <p className="text-[11.5px] text-jb-400 text-left">

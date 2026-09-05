@@ -97,6 +97,7 @@ def run_book() -> list[dict]:
                 "findings": len(res["findings"]),
                 "lastContactDays": res["relationship"]["last_contact_days"],
                 "kycOverdue": res["relationship"]["kyc_overdue"],
+                "kycDue": str(c["kyc_review_due"]),
                 # relationship contributes constraints rather than findings,
                 # so it is credited when it actually shaped the gate
                 "agents": sorted(

@@ -21,6 +21,7 @@ export interface BookRow {
   findings: number
   lastContactDays: number | null
   kycOverdue: boolean
+  kycDue: string
   agents: string[]
 }
 
