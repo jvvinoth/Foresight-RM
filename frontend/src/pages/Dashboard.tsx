@@ -55,17 +55,17 @@ const SCENARIOS: Record<
     icon: Globe,
     overrides: {
       'CL-0014': { // Lau Chi Ming
-        score: 9.8,
+        score: 98,
         gate: 'raise',
-        reason: 'CRITICAL LTV: Geopolitical collateral crash pushes Lombard LTV to 73.4% (Limit: 70.0%). Margin call is active.'
+        reason: 'CRITICAL LTV: a 5% collateral fall pushes Lombard LTV to 73.06% against a 70.00% trigger. Margin call is active.'
       },
       'CL-0018': { // Elena Marchetti-Wong
-        score: 9.1,
+        score: 91,
         gate: 'raise',
-        reason: 'SAA BREACH: Gold surge to USD 5,200/oz inflates commodity allocation to 48.6% of portfolio against 10% SAA limit.'
+        reason: 'SAA BREACH: gold at USD 4,622.60/oz holds commodities at 14.04% of the portfolio against a 0-10% mandate band.'
       },
       'CL-0019': { // Abdullah Al-Mansoori
-        score: 8.8,
+        score: 88,
         gate: 'raise',
         reason: 'CORRELATION RISK: Shipping and energy FCN locks in identical risk exposure with his primary Gulf operating cargo group.'
       }
@@ -78,17 +78,17 @@ const SCENARIOS: Record<
     icon: TrendingDown,
     overrides: {
       'CL-0002': { // Ravi Chandrasekaran
-        score: 10.0,
+        score: 100,
         gate: 'raise',
-        reason: 'CRITICAL LTV: US technology dropdown raises Lombard LTV to 79.8%, breaching his 75.0% margin call limit.'
+        reason: 'CRITICAL LTV: a 5% collateral fall raises Lombard LTV to 77.59%, breaching his 75.00% margin call trigger.'
       },
       'CL-0013': { // Zhang Meiling
-        score: 8.6,
+        score: 86,
         gate: 'raise',
-        reason: 'CONCENTRATION SQUEEZE: Core US Tech single stock holdings crash. High leverage risk across USD 4.2m Lombard drawn line.'
+        reason: 'CONCENTRATION SQUEEZE: US tech single-name holdings crash against a USD 4,200,000 Lombard drawn line (CF-0003).'
       },
       'CL-0015': { // Kim Do-Yoon
-        score: 8.2,
+        score: 82,
         gate: 'raise',
         reason: 'FCN BARRIER BREACH: Tech FCN structured notes drop past knockout thresholds, triggering forced stock delivery.'
       }
@@ -101,19 +101,19 @@ const SCENARIOS: Record<
     icon: Landmark,
     overrides: {
       'CL-0012': { // Cheung Kwok Wing
-        score: 8.9,
+        score: 89,
         gate: 'raise',
         reason: 'LIQUIDITY SQUEEZE: Medical drawdowns of USD 1.28m require liquidating Treasuries (2045 maturity) at a -38% capital loss.'
       },
       'CL-0004': { // Chalermchai Suphanburi
-        score: 8.5,
+        score: 85,
         gate: 'raise',
         reason: 'RETIREMENT PANIC: High yield curve crashes income-anchoring bonds. Hands over agribusiness with severe red marks.'
       },
       'CL-0003': { // Margarethe Voss-Brenner
-        score: 7.9,
+        score: 79,
         gate: 'reframe',
-        reason: 'CONSERVATIVE ALIGNMENT: Grieving widow is conservative, but inherited long-bonds fell -15% in capital value.'
+        reason: 'CONSERVATIVE ALIGNMENT: rate shock hits the inherited equity, already 71.46% against a 10-30% band on a Conservative 2/10 profile.'
       }
     }
   }
@@ -332,7 +332,7 @@ export default function Dashboard() {
         </div>
         <div className="mt-3.5 pt-3 border-t border-iron-200 flex items-center justify-between text-[11.5px] text-jb-500 font-mono">
           <span>Active Simulation Impact: <span className="text-jb-800 font-bold font-sans">{SCENARIOS[scenario].impact}</span></span>
-          <span className="hidden md:inline text-signal-gold font-bold">★ Pure Deterministic Stress re-ranking</span>
+          <span className="hidden md:inline text-signal-gold font-bold">★ Scenario re-ranking · figures from the dataset</span>
         </div>
       </div>
 
