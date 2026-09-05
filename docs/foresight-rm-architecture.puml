@@ -1,0 +1,105 @@
+@startuml
+title Foresight RM — End-to-End Product Architecture
+
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam linetype ortho
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+skinparam ArrowColor #415A8B
+skinparam ArrowFontColor #141E55
+skinparam packageBorderColor #141E55
+skinparam packageFontColor #141E55
+skinparam componentBorderColor #415A8B
+skinparam componentBackgroundColor #F5F7FC
+skinparam databaseBorderColor #415A8B
+skinparam databaseBackgroundColor #F5F7FC
+skinparam cloudBorderColor #415A8B
+skinparam cloudBackgroundColor #F5F7FC
+skinparam actorBorderColor #141E55
+skinparam actorFontColor #141E55
+skinparam rectangleBorderColor #141E55
+skinparam rectangleBackgroundColor #FFFFFF
+
+actor "Relationship Manager" as RM
+
+rectangle "Browser" {
+  component "React + TypeScript UI\nDashboard · Client · Agent · Integrity views" as WEB
+}
+
+folder "Synthetic challenge data\nCSV files + RM notes" as DATA {
+  file "Portfolio & holdings" as PORTFOLIO
+  file "Credit, commitments & cash needs" as CREDIT
+  file "Market context & event log" as MARKET
+  file "Client, mandate & RM notes" as CRM
+}
+
+cloud "Anthropic API\nOptional live drafting only" as LLM
+
+node "Docker container / Railway deployment\nFastAPI serves the web app and API on one origin" as APP {
+  folder "backend/static/\nVite production bundle" as STATIC
+
+  component "FastAPI\nmain.py" as API
+  component "API endpoints\n/api/book · /api/clients · /api/desk\n/api/integrity · /api/approvals" as ROUTES
+  component "loader.py\nIn-memory data loading, FX and\nbond-quantity normalisation" as LOADER
+
+  package "Wealth-intelligence engine" {
+    component "engine.py\nRuns the client/book and ranks findings" as ENGINE
+    component "Five deterministic detectors\nMonitor · Exposure · Resilience\nOpportunity · Suitability" as DETECTORS
+    component "gate.py\nRaise · Reframe · Hold · Authorised" as GATE
+  }
+
+  package "AI-assisted communication" {
+    component "relationship.py\nExtracts RM context, constraints\nand client communication preferences" as RELATIONSHIP
+    component "narrator.py\nMeeting brief, handover pack\nand client-language draft" as NARRATOR
+    folder "backend/cache/\nHash-keyed structured AI responses" as CACHE
+  }
+
+  database "SQLite audit trail\nRM approvals and final client text" as AUDIT
+}
+
+component "Dockerfile\nNode build stage → Python runtime" as DOCKER
+cloud "Railway\nContainer hosting" as RAILWAY
+
+RM --> WEB : reviews findings\nand approves communication
+WEB --> API : relative /api requests
+API --> STATIC : serves SPA and assets
+API --> ROUTES : dispatches requests
+ROUTES --> ENGINE : client, book and desk queries
+ROUTES --> NARRATOR : brief and draft requests
+ROUTES --> AUDIT : persists RM approval
+
+ENGINE --> DETECTORS : calculates findings
+ENGINE --> RELATIONSHIP : applies client context
+DETECTORS --> LOADER : normalised data access
+RELATIONSHIP --> LOADER : RM-note access
+LOADER --> PORTFOLIO
+LOADER --> CREDIT
+LOADER --> MARKET
+LOADER --> CRM
+DETECTORS --> GATE : evidence-backed findings
+RELATIONSHIP --> GATE : hold/reframe constraints
+GATE --> ENGINE : ranked, governed results
+ENGINE --> NARRATOR : approved context and findings
+
+RELATIONSHIP --> CACHE : read/write structured response
+NARRATOR --> CACHE : read/write structured response
+RELATIONSHIP ..> LLM : cache miss only
+NARRATOR ..> LLM : cache miss or live draft
+
+DOCKER --> STATIC : builds React bundle
+DOCKER --> API : packages Python service
+RAILWAY --> APP : runs container
+
+note bottom of DETECTORS
+All financial metrics are calculated
+deterministically in Python.
+end note
+
+note bottom of NARRATOR
+AI writes prose and translations only;
+it never creates a financial figure.
+end note
+@enduml

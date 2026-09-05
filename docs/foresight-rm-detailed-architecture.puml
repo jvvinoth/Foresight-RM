@@ -1,0 +1,157 @@
+@startuml
+title Foresight RM — Detailed Product Architecture
+left to right direction
+
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam linetype ortho
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+skinparam ArrowColor #415A8B
+skinparam ArrowFontColor #141E55
+skinparam packageBorderColor #141E55
+skinparam packageFontColor #141E55
+skinparam componentBorderColor #415A8B
+skinparam componentBackgroundColor #F5F7FC
+skinparam databaseBorderColor #415A8B
+skinparam databaseBackgroundColor #F5F7FC
+skinparam cloudBorderColor #415A8B
+skinparam cloudBackgroundColor #F5F7FC
+skinparam actorBorderColor #141E55
+skinparam actorFontColor #141E55
+skinparam folderBorderColor #415A8B
+skinparam folderBackgroundColor #FFFFFF
+
+actor "Relationship Manager\nPriscilla Ong" as RM
+
+package "Browser — React + TypeScript" as FRONTEND {
+  component "main.tsx + App.tsx\nReact Query · Router" as APP
+  component "Pages\nLogin · Dashboard · Client\nAgents · Integrity" as PAGES
+  component "UI components\nShell · FindingCard · Reveal\nOutlook · AgentStrip" as UI
+  component "api/client.ts\nTyped relative /api client" as CLIENT
+  component "types.ts\nFinding and API contracts" as TYPES
+
+  APP --> PAGES
+  PAGES --> UI
+  PAGES --> CLIENT
+  CLIENT --> TYPES
+}
+
+node "Single-origin Docker service — FastAPI + static React bundle" as SERVICE {
+  component "main.py\nFastAPI application · startup warm-up\nStaticFiles + SPA fallback" as FASTAPI
+
+  package "HTTP API" as HTTP {
+    component "Book & client endpoints\nGET /api/book\nGET /api/clients/{id}\nGET /api/clients/{id}/findings" as BOOK_API
+    component "Decision-support endpoints\nGET /reveal · /outlook · /brief\nGET /handover · /agents/trace" as INSIGHT_API
+    component "RM workflow endpoints\nPOST /draft · POST /approve\nGET /approvals · /desk" as WORKFLOW_API
+    component "Controls & diagnostics\nGET /health · /integrity · /docs" as CONTROL_API
+  }
+
+  package "Deterministic wealth-intelligence core" as CORE {
+    component "engine.py\nrun_client / run_book\nLRU cache · rank findings" as ENGINE
+    component "schemas.py\nFinding · Metric · Evidence\nStable UI/API contract" as SCHEMAS
+    component "gate.py\nRaise · Reframe · Hold · Authorised\nScore and prioritisation" as GATE
+
+    package "detectors/ — no LLM" as DETECTOR_PACKAGE {
+      component "monitor.py\nChanges, stale valuations" as MONITOR
+      component "exposure.py\nCorrelation, look-through" as EXPOSURE
+      component "resilience.py\nLTV path, shocks, liquidity" as RESILIENCE
+      component "opportunity.py\nCash drag, open loops" as OPPORTUNITY
+      component "suitability.py\nBands, exclusions, waivers" as SUITABILITY
+    }
+  }
+
+  package "AI-assisted communication — never calculates figures" as AI {
+    component "agents/relationship.py\nRM-note extraction · preferences\nConstraints can veto a finding" as RELATIONSHIP
+    component "agents/narrator.py\nBrief · handover · client draft" as NARRATOR
+    component "agents/base.py\nForced JSON-schema tool calls\nInput-hash cache wrapper" as AGENT_BASE
+    folder "backend/cache/\nCommitted structured responses\nNo-key demo support" as CACHE
+  }
+
+  package "Data, integrity & audit" as DATA_LAYER {
+    component "config.py\nPaths · snapshot date · environment" as CONFIG
+    component "loader.py\nLoads data in memory\nFX and quantity normalisation" as LOADER
+    component "integrity.py\nKnown-data-artefact register" as INTEGRITY
+    component "verify.py\nReproduces headline claims\nwith source rows" as VERIFY
+    component "store.py\nOnly approval write path" as STORE
+    database "backend/audit.db\nSQLite approval audit trail" as AUDIT
+  }
+
+  folder "backend/static/\nBuilt Vite assets" as STATIC
+}
+
+folder "data/ — synthetic SingHacks challenge data" as DATA {
+  file "clients.csv · portfolios.csv\nmandates.csv · holdings.csv\ninstruments.csv" as PORTFOLIO_DATA
+  file "credit_facilities.csv\ncommitments.csv\nplanned_cash_needs.csv" as CREDIT_DATA
+  file "market_context.csv\nevent_log.csv" as MARKET_DATA
+  file "transactions.csv\nrm_notes.json" as RM_DATA
+}
+
+cloud "Anthropic API\nUsed only for structured prose\nand translation" as ANTHROPIC
+component "Dockerfile\nNode build stage → Python runtime" as DOCKER
+cloud "Railway\nRuns container · /api/health" as RAILWAY
+
+RM --> APP : reviews findings\nrequests draft\napproves final text
+CLIENT --> FASTAPI : GET /api/*\nPOST /api/*
+FASTAPI --> STATIC : serves SPA and assets
+FASTAPI --> BOOK_API
+FASTAPI --> INSIGHT_API
+FASTAPI --> WORKFLOW_API
+FASTAPI --> CONTROL_API
+
+BOOK_API --> ENGINE : book, profile, findings
+INSIGHT_API --> ENGINE : reveal, outlook, trace
+INSIGHT_API --> NARRATOR : brief and handover
+WORKFLOW_API --> NARRATOR : live draft
+WORKFLOW_API --> STORE : approve action + final text
+WORKFLOW_API --> AUDIT
+CONTROL_API --> INTEGRITY
+
+ENGINE --> DETECTOR_PACKAGE : run five detectors
+ENGINE --> RELATIONSHIP : client context
+DETECTOR_PACKAGE --> SCHEMAS : Finding + Evidence
+DETECTOR_PACKAGE --> GATE : calculated findings
+RELATIONSHIP --> GATE : communication constraints
+GATE --> ENGINE : governed, scored results
+ENGINE --> NARRATOR : findings + approved context
+
+RELATIONSHIP --> AGENT_BASE
+NARRATOR --> AGENT_BASE
+AGENT_BASE --> CACHE : read first / cache by input hash
+AGENT_BASE ..> ANTHROPIC : cache miss or live draft
+
+DETECTOR_PACKAGE --> LOADER : normalised data access
+RELATIONSHIP --> LOADER : RM notes
+LOADER --> CONFIG
+LOADER --> PORTFOLIO_DATA
+LOADER --> CREDIT_DATA
+LOADER --> MARKET_DATA
+LOADER --> RM_DATA
+VERIFY ..> DETECTOR_PACKAGE : validates claims
+VERIFY ..> LOADER : prints evidence rows
+STORE --> AUDIT
+
+DOCKER --> STATIC : npm run build
+DOCKER --> FASTAPI : packages backend + data
+RAILWAY --> SERVICE : deploys one container
+
+note bottom of GATE
+No finding reaches a client
+without RM approval.
+end note
+
+note bottom of AGENT_BASE
+AI does not originate a number.
+All financial facts come from
+deterministic Python calculations.
+end note
+
+legend bottom
+|= Boundary |= Purpose |
+| Browser | Presentation and RM interaction |
+| FastAPI service | API, data processing, governance and audit |
+| Dashed arrow | Optional external AI call; cache-first |
+endlegend
+@enduml
