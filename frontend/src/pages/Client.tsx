@@ -7,7 +7,7 @@ import { Outlook } from '../components/Outlook'
 import { Reveal } from '../components/Reveal'
 import { Eyebrow, GateBadge, usd } from '../components/ui'
 import { AGENTS } from '../data/agents'
-import { CLIENT_AVATARS, DEFAULT_AVATAR } from '../data/avatars'
+import { Monogram } from '../components/Monogram'
 import {
   approve,
   generateDraft,
@@ -76,16 +76,7 @@ export default function Client() {
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-iron-400 pb-5">
         <div>
           <div className="flex flex-wrap items-center gap-4">
-            {/* Unified Client Portrait Avatar */}
-            <div className="relative shrink-0">
-              <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-jb-300 bg-white p-0.5 shadow-sm">
-                <img
-                  src={CLIENT_AVATARS[id] || DEFAULT_AVATAR}
-                  alt={client.data?.name ?? 'Client'}
-                  className="h-full w-full rounded-full object-cover"
-                />
-              </div>
-            </div>
+            <Monogram id={id} name={client.data?.name ?? '—'} size={54} />
             
             <div className="flex flex-wrap items-baseline gap-3">
               <h1 className="page-title">

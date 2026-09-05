@@ -18,7 +18,6 @@ function Logo() {
 const NAV = [
   { to: '/dashboard', label: 'Priority Radar' },
   { to: '/agents', label: 'The Desk' },
-  { to: '/integrity', label: 'Data Integrity' },
 ]
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -90,8 +89,11 @@ function ShellBody({
       <main className="mx-auto w-full max-w-[1420px] flex-1 px-6 py-7">{children}</main>
 
       <footer className="border-t border-iron-400 bg-white">
-        <div className="mx-auto flex max-w-[1420px] flex-wrap gap-x-6 gap-y-1 px-6 py-4 text-[11px] text-jb-400">
+        <div className="mx-auto flex max-w-[1420px] flex-wrap items-center gap-x-6 gap-y-1 px-6 py-4 text-[11px] text-jb-400">
           <span>Foresight Labs · SingHacks 2026</span>
+          <NavLink to="/integrity" className="underline-offset-2 hover:text-jb-700 hover:underline">
+            Data integrity register
+          </NavLink>
           <span>Synthetic data supplied by Julius Baer. Not investment advice.</span>
           <span className="font-mono">
             Detectors compute · agents narrate · no agent originates a number

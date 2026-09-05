@@ -13,7 +13,7 @@ const TONE: Record<string, string> = {
   gold: 'text-signal-gold',
 }
 
-import { CLIENT_AVATARS, DEFAULT_AVATAR } from '../data/avatars'
+import { Monogram } from '../components/Monogram'
 
 type ScenarioId = 'baseline' | 'hormuz' | 'tech' | 'rates'
 
@@ -40,17 +40,17 @@ const SCENARIOS: Record<
     icon: Globe,
     overrides: {
       'CL-0014': { // Lau Chi Ming
-        score: 9.8,
+        score: 98,
         gate: 'raise',
         reason: 'CRITICAL LTV: Geopolitical collateral crash pushes Lombard LTV to 73.4% (Limit: 70.0%). Margin call is active.'
       },
       'CL-0018': { // Elena Marchetti-Wong
-        score: 9.1,
+        score: 91,
         gate: 'raise',
         reason: 'SAA BREACH: Gold surge to USD 5,200/oz inflates commodity allocation to 48.6% of portfolio against 10% ceiling.'
       },
       'CL-0019': { // Abdullah Al-Mansoori
-        score: 8.8,
+        score: 88,
         gate: 'raise',
         reason: 'CORRELATION RISK: Shipping and energy FCN locks in identical risk exposure with his primary Gulf operating cargo group.'
       }
@@ -63,17 +63,17 @@ const SCENARIOS: Record<
     icon: TrendingDown,
     overrides: {
       'CL-0002': { // Ravi Chandrasekaran
-        score: 10.0,
+        score: 100,
         gate: 'raise',
         reason: 'CRITICAL LTV: US technology dropdown raises Lombard LTV to 79.8%, breaching his 75.0% margin call limit.'
       },
       'CL-0013': { // Zhang Meiling
-        score: 8.6,
+        score: 86,
         gate: 'raise',
         reason: 'CONCENTRATION SQUEEZE: Core US Tech single stock holdings crash. High leverage risk across USD 4.2m Lombard drawn line.'
       },
       'CL-0015': { // Kim Do-Yoon
-        score: 8.2,
+        score: 82,
         gate: 'raise',
         reason: 'FCN BARRIER BREACH: Tech FCN structured notes drop past knockout thresholds, triggering forced stock delivery.'
       }
@@ -86,17 +86,17 @@ const SCENARIOS: Record<
     icon: Landmark,
     overrides: {
       'CL-0012': { // Cheung Kwok Wing
-        score: 8.9,
+        score: 89,
         gate: 'raise',
         reason: 'LIQUIDITY SQUEEZE: Medical drawdowns of USD 1.28m require liquidating Treasuries (2045 maturity) at a -38% capital loss.'
       },
       'CL-0004': { // Chalermchai Suphanburi
-        score: 8.5,
+        score: 85,
         gate: 'raise',
         reason: 'RETIREMENT PANIC: High yield curve crashes income-anchoring bonds. Hands over agribusiness with severe red marks.'
       },
       'CL-0003': { // Margarethe Voss-Brenner
-        score: 7.9,
+        score: 79,
         gate: 'reframe',
         reason: 'CONSERVATIVE ALIGNMENT: Grieving widow is conservative, but inherited long-bonds fell -15% in capital value.'
       }
@@ -128,7 +128,8 @@ export default function Dashboard() {
       return c
     })
 
-    // Re-sort and rank clients dynamically based on chosen scenario
+    // Scenario scores are on the same 0-100 scale the engine produces, so a
+    // stressed client outranks an untouched one.
     const sorted = [...rows].sort((a, b) => b.score - a.score)
     const ranked = sorted.map((c, idx) => ({ ...c, rank: idx + 1 }))
 
@@ -259,7 +260,6 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {top3Clients.map((c) => {
-              const avatarUrl = CLIENT_AVATARS[c.id] || DEFAULT_AVATAR
               const isCritical = c.score >= 7.5 || c.gate === 'raise'
 
               return (
@@ -284,20 +284,12 @@ export default function Dashboard() {
                     <div className="flex items-center gap-4 text-left w-full">
                       {/* Avatar on the left */}
                       <div className="relative shrink-0">
-                        <div
-                          className={`relative h-14 w-14 rounded-full overflow-hidden p-0.5 bg-white transition-transform duration-500 group-hover:scale-105 border-2 ${
-                            isCritical ? 'border-signal-critical' : 'border-signal-warn'
-                          }`}
-                        >
-                          <img
-                            src={avatarUrl}
-                            alt={c.name}
-                            className="h-full w-full rounded-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
-                                c.name
-                              )}`
-                            }}
+                        <div className="transition-transform duration-500 group-hover:scale-105">
+                          <Monogram
+                            id={c.id}
+                            name={c.name}
+                            size={54}
+                            ring={isCritical ? '#a8322b' : '#9a6a12'}
                           />
                         </div>
                         {/* Floating Priority Score Badge with white outline */}
