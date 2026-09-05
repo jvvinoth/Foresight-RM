@@ -69,29 +69,27 @@ def _note_evidence(rel: dict, objection: dict) -> dict | None:
 
 
 def conflicts(client_id: str) -> list[dict]:
-    """Every finding where the gate did not simply pass the detector through."""
+    """Contested findings, grouped by the objection that overruled them.
+
+    One human fact usually overrules several findings at once — Hartono's
+    family politics reshapes what Exposure, Resilience and Opportunity each
+    concluded. Returning one group per objection rather than one entry per
+    finding stops the same note being printed three times, and tells the truer
+    story: a single sentence in a note changed three separate analyses.
+    """
     res = engine.run_client(client_id)
     rel = res["relationship"]
-    out = []
+    groups: dict[str, dict] = {}
 
     for f in res["findings"]:
         if f.gate not in CONTESTED:
             continue
         objection = _objection(rel, f)
-        out.append(
-            {
-                "findingId": f.id,
-                "claim": {
-                    "agent": f.agent,
-                    "severity": f.severity,
-                    "title": f.title,
-                    "headline": f.headline,
-                    "evidence": [
-                        {"source": e.source, "ref": e.ref, "detail": e.detail}
-                        for e in f.evidence
-                        if e.kind != "note"
-                    ][:2],
-                },
+        key = f"{objection['text']}|{f.gate}"
+
+        if key not in groups:
+            groups[key] = {
+                "key": key,
                 "objection": {
                     **objection,
                     "agent": "relationship",
@@ -100,12 +98,29 @@ def conflicts(client_id: str) -> list[dict]:
                 "verdict": {
                     "gate": f.gate,
                     "meaning": VERDICT_MEANING[f.gate],
-                    "reason": f.gate_reason,
-                    "revisit": f.revisit,
+                    "revisit": f.revisit or objection.get("revisit"),
                 },
                 "action": rel.get("entry_point"),
+                "overruled": [],
+            }
+
+        groups[key]["overruled"].append(
+            {
+                "findingId": f.id,
+                "agent": f.agent,
+                "severity": f.severity,
+                "title": f.title,
+                "headline": f.headline,
+                "evidence": [
+                    {"source": e.source, "ref": e.ref, "detail": e.detail}
+                    for e in f.evidence
+                    if e.kind != "note"
+                ][:2],
             }
         )
+
+    out = list(groups.values())
+    out.sort(key=lambda g: -len(g["overruled"]))
     return out
 
 

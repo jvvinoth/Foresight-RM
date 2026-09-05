@@ -236,15 +236,18 @@ export async function approve(id: string, payload: {
 
 /* ------------------------------------------------------------------ desk */
 
-export interface DeskConflict {
+export interface OverruledFinding {
   findingId: string
-  claim: {
-    agent: string
-    severity: 'critical' | 'high' | 'medium' | 'info'
-    title: string
-    headline: string
-    evidence: { source: string; ref: string; detail: string }[]
-  }
+  agent: string
+  severity: 'critical' | 'high' | 'medium' | 'info'
+  title: string
+  headline: string
+  evidence: { source: string; ref: string; detail: string }[]
+}
+
+/** One objection, and every finding it reshaped. */
+export interface DeskConflict {
+  key: string
   objection: {
     agent: 'relationship'
     text: string
@@ -255,10 +258,10 @@ export interface DeskConflict {
   verdict: {
     gate: 'raise' | 'reframe' | 'hold' | 'authorised'
     meaning: string
-    reason: string
     revisit: string | null
   }
   action: string | null
+  overruled: OverruledFinding[]
 }
 
 export interface Desk {
