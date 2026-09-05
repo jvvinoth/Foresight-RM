@@ -111,14 +111,14 @@ To ensure 100% computational correctness and mathematical safety during client a
 
 | Test Suite | Edge Case Category | Description | Live Assertion | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Backend** | `SAA Mandate` | Custody account exclusion | Excludes non-bank portfolios from discretionary SAA audits | `● OK` |
-| **Backend** | `FX Conventions` | JPY reverse conversion | Divides Yen assets correctly (preventing trillion-dollar AUM inflations) | `● OK` |
-| **Backend** | `Suitability` | RM waiver overrides | Permits custom SAA overweights if active signed RM notes are on file | `● OK` |
-| **Backend** | `Liquidity` | Private Credit gates | Gates and restricts redemption requests exceeding the 22% lock-up rule | `● OK` |
-| **Backend** | `Stress Simulation`| Geopolitical re-ranking | Re-calculates collateral shocks and ranks by priority, not size | `● OK` |
-| **Frontend** | `Modal Consent` | Voice Briefing Recorder | Enforces explicit verbal client consent before starting audio capture | `● Passed` |
-| **Frontend** | `Equalizer Wave` | Equalizer visualizer | Simulates fluid 15-bar multi-frequency gold/navy equalizer bounces | `● Passed` |
-| **Frontend** | `KYC Date Math` | 30-day KYC tags | Computes and displays inline KYC status flags only within a 30-day window | `● Passed` |
+| **Backend** | `SAA Mandate` | Custody account exclusion | Excludes non-bank portfolios from discretionary SAA audits | `✅ Passed` |
+| **Backend** | `FX Conventions` | JPY reverse conversion | Divides Yen assets correctly (preventing trillion-dollar AUM inflations) | `✅ Passed` |
+| **Backend** | `Suitability` | RM waiver overrides | Permits custom SAA overweights if active signed RM notes are on file | `✅ Passed` |
+| **Backend** | `Liquidity` | Private Credit gates | Gates and restricts redemption requests exceeding the 22% lock-up rule | `✅ Passed` |
+| **Backend** | `Stress Simulation`| Geopolitical re-ranking | Re-calculates collateral shocks and ranks by priority, not size | `✅ Passed` |
+| **Frontend** | `Modal Consent` | Voice Briefing Recorder | Enforces explicit verbal client consent before starting audio capture | `✅ Passed` |
+| **Frontend** | `Equalizer Wave` | Equalizer visualizer | Simulates fluid 15-bar multi-frequency gold/navy equalizer bounces | `✅ Passed` |
+| **Frontend** | `KYC Date Math` | 30-day KYC tags | Computes and displays inline KYC status flags only within a 30-day window | `✅ Passed` |
 
 ### Run the Test Suites
 

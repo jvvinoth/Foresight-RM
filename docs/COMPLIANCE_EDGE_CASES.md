@@ -35,7 +35,7 @@ To execute the backend compliance test suite, run:
 ```bash
 python3 backend/test_edge_cases.py
 ```
-**Results:** `5/5 Tests Passed (OK)`
+**Results:** 5/5 Tests Passed (`✅ Passed`)
 
 ---
 
