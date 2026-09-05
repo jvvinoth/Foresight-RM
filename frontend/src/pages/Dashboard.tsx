@@ -838,13 +838,7 @@ export default function Dashboard() {
                     Do you have the client's verbal consent to record this briefing?
                   </p>
 
-                  <div className="flex gap-3 mt-1">
-                    <button
-                      onClick={() => setActiveRecordClient(null)}
-                      className="flex-1 py-2.5 rounded-full border border-iron-300 hover:border-jb-400 hover:bg-jb-50/20 text-[12.5px] text-jb-700 transition-all font-sans cursor-pointer text-center"
-                    >
-                      No, Cancel
-                    </button>
+                  <div className="flex flex-col gap-2.5 mt-2 w-full">
                     <button
                       onClick={() => {
                         setConsentGiven(true)
@@ -853,10 +847,16 @@ export default function Dashboard() {
                         setRecordSeconds(0)
                         setRecordingSaved(false)
                       }}
-                      className="flex-1 py-2.5 rounded-full bg-signal-good text-white hover:bg-jb-900 transition-all text-[12.5px] font-semibold font-sans cursor-pointer text-center shadow-xs flex items-center justify-center gap-1.5"
+                      className="w-full py-3 rounded-full bg-signal-good text-white hover:bg-jb-900 transition-all text-[13px] font-semibold font-sans cursor-pointer flex items-center justify-center gap-2 shadow-xs"
                     >
-                      <Check size={14} />
+                      <Check size={14} className="shrink-0" />
                       <span>Verbal Consent Confirmed</span>
+                    </button>
+                    <button
+                      onClick={() => setActiveRecordClient(null)}
+                      className="w-full py-2.5 rounded-full border border-iron-300 hover:border-jb-400 hover:bg-jb-50/20 text-[12.5px] text-jb-500 hover:text-jb-900 transition-all font-sans cursor-pointer text-center"
+                    >
+                      No, Cancel
                     </button>
                   </div>
                 </div>
