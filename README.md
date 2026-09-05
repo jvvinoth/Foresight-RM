@@ -26,6 +26,8 @@ Open **http://localhost:8010** → Sign in → **Lau Chi Ming** → **Exposure**
 
 No API key required. Model outputs are cached in `backend/cache/` and committed.
 
+Joining the team? Start with **[HANDOVER.md](HANDOVER.md)**.
+
 ---
 
 ## Judging Criteria
