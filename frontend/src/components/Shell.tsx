@@ -17,7 +17,7 @@ function Logo() {
 
 const NAV = [
   { to: '/dashboard', label: 'Priority Radar' },
-  { to: '/agents', label: 'Agents' },
+  { to: '/agents', label: 'The Desk' },
   { to: '/integrity', label: 'Data Integrity' },
 ]
 

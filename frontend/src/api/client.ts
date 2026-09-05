@@ -233,3 +233,69 @@ export async function approve(id: string, payload: {
   if (!res.ok) throw new Error('approve failed')
   return res.json() as Promise<{ id: number; ts: string; edited: boolean }>
 }
+
+/* ------------------------------------------------------------------ desk */
+
+export interface DeskConflict {
+  findingId: string
+  claim: {
+    agent: string
+    severity: 'critical' | 'high' | 'medium' | 'info'
+    title: string
+    headline: string
+    evidence: { source: string; ref: string; detail: string }[]
+  }
+  objection: {
+    agent: 'relationship'
+    text: string
+    kind: 'legal' | 'instruction' | 'human' | 'documented'
+    revisit: string | null
+    evidence: { id: string; date: string; channel: string; quote: string } | null
+  }
+  verdict: {
+    gate: 'raise' | 'reframe' | 'hold' | 'authorised'
+    meaning: string
+    reason: string
+    revisit: string | null
+  }
+  action: string | null
+}
+
+export interface Desk {
+  client: {
+    id: string
+    name: string
+    language: string
+    tenureYears: number
+    lifeStage: string
+    sourceOfWealth: string
+    riskProfile: string
+    headline: string | null
+  }
+  trace: Trace[]
+  findingsByAgent: Record<string, { id: string; title: string; headline: string; gate: string }[]>
+  conflicts: DeskConflict[]
+  constraints: Constraint[]
+  cache: { entries: number; model: string; live: boolean }
+}
+
+export interface DeskRosterRow {
+  id: string
+  name: string
+  conflicts: number
+  gate: 'raise' | 'reframe' | 'hold' | 'authorised'
+  summary: string
+}
+
+export const useDeskRoster = () =>
+  useQuery({
+    queryKey: ['desk-roster'],
+    queryFn: () => get<{ clients: DeskRosterRow[] }>('/desk'),
+  })
+
+export const useDesk = (id: string) =>
+  useQuery({
+    queryKey: ['desk', id],
+    queryFn: () => get<Desk>(`/desk/${id}`),
+    enabled: Boolean(id),
+  })

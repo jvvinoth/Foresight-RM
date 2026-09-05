@@ -36,18 +36,25 @@ SCHEMA = {
 }
 
 # Phrases in the notes that constrain what can be raised.
+# kind distinguishes *why* it blocks: a closed period is a legal bar, a client
+# saying "not yet" is an instruction, and grief is a human judgement. They read
+# very differently to an RM and to a compliance officer.
 BLOCKING = [
     (
         r"dealing restrictions|closed period",
         "Board member in a closed period — no dealing is permitted.",
-        True,
+        "legal",
     ),
     (
         r"asked that we not make any changes|not make any changes for now",
         "The client has asked that no changes be made for now.",
-        True,
+        "instruction",
     ),
-    (r"asked for more time", "The client asked for more time on this. Do not press again yet.", True),
+    (
+        r"asked for more time",
+        "The client asked for more time on this. Do not press again yet.",
+        "instruction",
+    ),
 ]
 
 SENSITIVE = [
@@ -89,15 +96,17 @@ def profile(client_id: str) -> dict:
     blob = " ".join(str(n["note"]) for n in notes)
 
     constraints: list[dict] = []
-    for pattern, text, _ in BLOCKING:
+    for pattern, text, kind in BLOCKING:
         if re.search(pattern, blob, re.I):
             revisit = None
-            if m := WINDOW_RE.search(blob):
+            if kind == "legal" and (m := WINDOW_RE.search(blob)):
                 revisit = m.group(1)
-            constraints.append({"text": text, "blocking": True, "revisit": revisit})
+            constraints.append(
+                {"text": text, "blocking": True, "kind": kind, "revisit": revisit}
+            )
     for pattern, text in SENSITIVE:
         if re.search(pattern, blob, re.I):
-            constraints.append({"text": text, "sensitive": True})
+            constraints.append({"text": text, "sensitive": True, "kind": "human"})
 
     # a confirmed, near-dated obligation is the safest way into a hard subject
     needs = planned_cash_needs[

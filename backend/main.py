@@ -22,6 +22,7 @@ import store  # noqa: E402
 from agents import narrator  # noqa: E402
 from agents.base import cache_stats  # noqa: E402
 from config import RM_ID, STATIC_DIR, TODAY  # noqa: E402
+import desk as desk_module  # noqa: E402
 from detectors import exposure, resilience  # noqa: E402
 from integrity import TRAPS  # noqa: E402
 from loader import CLIENT_BY_ID, SUMMARY  # noqa: E402
@@ -171,6 +172,19 @@ def approvals(client_id: Optional[str] = None):
 def trace(client_id: str):
     _client_or_404(client_id)
     return {"trace": engine.run_client(client_id)["trace"], "cache": cache_stats()}
+
+
+@app.get("/api/desk")
+def desk_roster():
+    """Clients where at least one agent was overruled or excused."""
+    return {"clients": desk_module.roster()}
+
+
+@app.get("/api/desk/{client_id}")
+def desk_client(client_id: str):
+    """Six specialists on one client: who ran, what they found, where they disagree."""
+    _client_or_404(client_id)
+    return desk_module.desk(client_id)
 
 
 @app.get("/api/integrity")
