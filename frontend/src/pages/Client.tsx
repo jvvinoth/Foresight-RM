@@ -113,8 +113,8 @@ export default function Client() {
         </div>
       )}
 
-      <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-[68px] lg:self-start">
+      <div className="grid gap-5 @4xl:grid-cols-[280px_1fr]">
+        <aside className="flex flex-col gap-4 @4xl:sticky @4xl:top-[68px] @4xl:self-start">
           <div className="rounded border border-iron-400 bg-white p-4">
             <Eyebrow>The person</Eyebrow>
             <dl className="mt-3 flex flex-col gap-2.5 text-[12.5px]">
@@ -461,7 +461,7 @@ function Handover({ data }: { data: HandoverData }) {
         Everything a new Relationship Manager needs on day one, without reading years of files.
       </p>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-5 grid gap-4 @3xl:grid-cols-2">
         {rows.map(([k, v]) => (
           <div key={k} className="border-l-2 border-jb-200 pl-3">
             <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">{k}</div>

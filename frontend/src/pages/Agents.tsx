@@ -71,7 +71,7 @@ export default function Agents() {
       </div>
 
       {/* agent cards */}
-      <div className="grid gap-px overflow-hidden rounded border border-iron-400 bg-iron-400 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-px overflow-hidden rounded border border-iron-400 bg-iron-400 @3xl:grid-cols-2 @6xl:grid-cols-3">
         {AGENTS.map((a) => {
           const n = counts[a.id] ?? 0
           const ex = (examples[a.id] ?? []).slice(0, 3)

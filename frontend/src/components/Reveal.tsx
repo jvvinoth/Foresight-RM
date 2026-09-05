@@ -174,7 +174,7 @@ export function Reveal({ data }: { data: RevealData }) {
             {data.outside.length > 0 && (
               <div>
                 <Eyebrow>And outside the portfolio entirely</Eyebrow>
-                <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                <div className="mt-2 grid gap-2 @2xl:grid-cols-3">
                   {data.outside.map((o, i) => (
                     <div
                       key={o.label}

@@ -59,9 +59,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-px overflow-hidden rounded border border-iron-400 bg-iron-400 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="thin-scroll flex gap-px overflow-x-auto rounded border border-iron-400 bg-iron-400">
         {(data?.stats ?? Array.from({ length: 5 }, () => null)).map((s, i) => (
-          <div key={s?.label ?? i} className="flex flex-col gap-1 bg-white px-5 py-4">
+          <div key={s?.label ?? i} className="flex min-w-[150px] flex-1 shrink-0 flex-col gap-1 bg-white px-5 py-4">
             <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
               {s?.label ?? '—'}
             </div>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { LogOut, ShieldCheck } from 'lucide-react'
+import { DeviceFrame, DeviceToggle, useDevice } from './DeviceFrame'
 import { useBook } from '../api/client'
 
 function Logo() {
@@ -21,12 +22,27 @@ const NAV = [
 ]
 
 export function Shell({ children }: { children: ReactNode }) {
+  const { device, setDevice } = useDevice()
+  const inner = <ShellBody device={device} setDevice={setDevice}>{children}</ShellBody>
+  if (device === 'desktop') return inner
+  return <DeviceFrame device={device}>{inner}</DeviceFrame>
+}
+
+function ShellBody({
+  children,
+  device,
+  setDevice,
+}: {
+  children: ReactNode
+  device: Parameters<typeof DeviceToggle>[0]['device']
+  setDevice: Parameters<typeof DeviceToggle>[0]['setDevice']
+}) {
   const nav = useNavigate()
   const { data } = useBook()
   const rm = data?.rm
 
   return (
-    <div className="flex min-h-full flex-col bg-iron-100">
+    <div className="@container flex min-h-full flex-col bg-iron-100">
       <header className="sticky top-0 z-30 bg-jb-900">
         <div className="mx-auto flex max-w-[1420px] items-center gap-8 px-6 py-3">
           <Logo />
@@ -48,11 +64,12 @@ export function Shell({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="ml-auto flex items-center gap-5">
-            <div className="hidden items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-white/45 sm:flex">
+            <DeviceToggle device={device} setDevice={setDevice} />
+            <div className="hidden items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-white/45 @5xl:flex">
               <ShieldCheck size={12} strokeWidth={2} />
               Snapshot {rm?.asOf ?? '—'}
             </div>
-            <div className="hidden text-right leading-tight sm:block">
+            <div className="hidden text-right leading-tight @3xl:block">
               <div className="text-[13px] text-white">{rm?.name ?? ''}</div>
               <div className="font-mono text-[10px] text-white/45">{rm?.id ?? ''}</div>
             </div>
