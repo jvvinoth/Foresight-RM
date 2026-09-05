@@ -127,22 +127,26 @@ s.addNotes('Suitability correctly identifies a critical breach. The Relationship
 /* 7 ─ what could happen next */
 s = p.addSlide(); s.background={color:W}
 eyebrow(s,'WHAT COULD HAPPEN NEXT',0.7,0.55)
-title(s,'A 5% fall triggers the margin call',0.7,0.95)
+title(s,'One client, and the whole book',0.7,0.95)
 s.addText([
-  {text:'His loan is secured on the very thing he is concentrated in.',options:{breakLine:true}},
-  {text:'So the usual remedy — sell something to raise cash — makes',options:{breakLine:true}},
-  {text:'the ratio worse, not better.',options:{}}],
-  {x:0.7,y:2.05,w:4.9,h:1.3,fontFace:B,fontSize:16.5,color:MUT,lineSpacing:26,isTextBox:true,margin:0})
+  {text:'Lau’s loan is secured on the very thing he is concentrated in,',options:{breakLine:true}},
+  {text:'so selling to raise cash makes the ratio worse, not better.',options:{}}],
+  {x:0.7,y:2.0,w:5.0,h:1.1,fontFace:B,fontSize:16,color:MUT,lineSpacing:25,isTextBox:true,margin:0})
+s.addText('COMPUTED FROM HIS CREDIT FILE',
+  {x:0.7,y:3.28,w:5.0,h:0.3,fontFace:H,fontSize:11,color:GRN,charSpacing:2,isTextBox:true,margin:0})
 ;[['Today','69.41%',GRN],['−5%','73.06%',RED],['−10%','77.12%',RED],['−20%','86.76%',RED]].forEach(([k,v,c],i)=>{
-  const y=3.6+i*0.72
+  const y=3.72+i*0.6
   s.addText(k,{x:0.7,y,w:1.4,h:0.4,fontFace:B,fontSize:16,color:MUT,isTextBox:true,margin:0})
   s.addText(v,{x:2.05,y:y-0.06,w:1.8,h:0.5,fontFace:H,fontSize:22,color:c,isTextBox:true,margin:0})
   if(i>0) s.addText('margin call',{x:3.9,y:y+0.03,w:1.7,h:0.35,fontFace:H,fontSize:13,color:RED,charSpacing:1,isTextBox:true,margin:0})
 })
-s.addImage({path:S+'c-outlook.png',x:6.15,y:1.9,w:6.5,h:2.89})
-s.addText('Computed from real lending values — not typed in.',
-  {x:6.15,y:5.0,w:6.5,h:0.4,fontFace:H,fontSize:14.5,color:GOLD,charSpacing:1,isTextBox:true,margin:0})
-s.addNotes('The brief asks what could happen next. These loan-to-value figures are computed from the actual credit facility under collateral shocks, not estimated.')
+s.addImage({path:S+'c-simulator.png',x:6.15,y:1.85,w:6.5,h:2.98})
+s.addText('AND THE SAME SHOCK ACROSS ALL TWENTY',
+  {x:6.15,y:5.0,w:6.5,h:0.3,fontFace:H,fontSize:11,color:GOLD,charSpacing:2,isTextBox:true,margin:0})
+s.addText('Four macro scenarios re-rank the book in place. Selecting a Middle East oil shock moves Lau to the top of Priscilla’s list, and Elena with him on commodities.',
+  {x:6.15,y:5.35,w:6.5,h:0.9,fontFace:B,fontSize:14,color:MUT,lineSpacing:22,isTextBox:true,margin:0})
+foot(s,'Left: loan-to-value computed from the credit facility under collateral shocks. Right: scenario definitions are ours; every figure quoted inside them is read from the dataset')
+s.addNotes('The brief asks what could happen next, and the answer works at two scales. Per client, the loan-to-value figures are computed from the actual credit facility under collateral shocks. Across the book, four macro scenarios re-rank all twenty clients in place — a Middle East oil shock moves Lau to the top of the list. If asked: the scenario definitions are ours, and every figure quoted inside them is read from the dataset.')
 
 
 /* 8 ─ not every reason to call is a risk */
