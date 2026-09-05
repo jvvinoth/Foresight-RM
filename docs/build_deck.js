@@ -209,46 +209,51 @@ s = p.addSlide(); s.background={color:LIGHT}
 icon(s,'mic-navy',0.7,0.5,0.3)
 eyebrow(s,'WHERE THIS GOES NEXT',1.12,0.55)
 title(s,'Closing the loop',0.7,0.95)
-s.addText('The tone analysis already runs. Today it reads the twenty-eight written RM notes and produces the guidance below. Point the same pipeline at a consented meeting transcript and it reads the room instead.',
-  {x:0.7,y:1.95,w:11.9,h:0.8,fontFace:B,fontSize:16,color:MUT,lineSpacing:24,isTextBox:true,margin:0})
+s.addText('Every other tool summarises the meeting and files a note. Ours feeds what was said back into what may be said next.',
+  {x:0.7,y:1.9,w:11.9,h:0.65,fontFace:H,fontSize:18,color:NAVY,lineSpacing:26,isTextBox:true,margin:0})
 
-s.addShape(p.ShapeType.roundRect,{x:0.7,y:2.95,w:5.85,h:2.35,fill:{color:W},line:{color:IRON,width:1},rectRadius:0.06})
-s.addText('LIVE TODAY  ·  FROM WRITTEN NOTES',{x:1.0,y:3.15,w:5.3,h:0.3,fontFace:H,fontSize:12.5,color:GRN,charSpacing:2,isTextBox:true,margin:0})
-s.addText('“Speak with respect for his entrepreneurial conviction but be direct and grounded in numbers, gently challenging the concentration risk without dismissing his market view.”',
-  {x:1.0,y:3.55,w:5.3,h:1.5,fontFace:H,fontSize:15,color:NAVY,italic:true,lineSpacing:22,isTextBox:true,margin:0})
+s.addText('BUILT TODAY \u00b7 CONSENT BEFORE RECORDING',
+  {x:0.7,y:2.75,w:3.7,h:0.3,fontFace:H,fontSize:11,color:GRN,charSpacing:1.6,isTextBox:true,margin:0})
+s.addImage({path:S+'c-consent.png',x:0.7,y:3.05,w:3.25,h:3.65})
 
-s.addShape(p.ShapeType.roundRect,{x:6.75,y:2.95,w:5.85,h:2.35,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
-s.addText('NEXT  ·  FROM A CONSENTED TRANSCRIPT',{x:7.05,y:3.15,w:5.3,h:0.3,fontFace:H,fontSize:12.5,color:GOLD,charSpacing:2,isTextBox:true,margin:0})
+s.addShape(p.ShapeType.roundRect,{x:4.5,y:2.75,w:8.13,h:1.9,fill:{color:W},line:{color:IRON,width:1},rectRadius:0.06})
+s.addText('LIVE TODAY  \u00b7  FROM THE 28 WRITTEN RM NOTES',{x:4.85,y:2.98,w:7.5,h:0.3,fontFace:H,fontSize:12.5,color:GRN,charSpacing:2,isTextBox:true,margin:0})
+s.addText('\u201cSpeak with respect for his entrepreneurial conviction but be direct and grounded in numbers, gently challenging the concentration risk without dismissing his market view.\u201d',
+  {x:4.85,y:3.4,w:7.5,h:1.05,fontFace:H,fontSize:15,color:NAVY,italic:true,lineSpacing:23,isTextBox:true,margin:0})
+
+s.addShape(p.ShapeType.roundRect,{x:4.5,y:4.8,w:8.13,h:1.9,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
+s.addText('NEXT  \u00b7  FROM A CONSENTED TRANSCRIPT',{x:4.85,y:5.03,w:7.5,h:0.3,fontFace:H,fontSize:12.5,color:GOLD,charSpacing:2,isTextBox:true,margin:0})
 s.addText([
   {text:'Consent captured before anything records.',options:{breakLine:true,bullet:true}},
   {text:'Tone and concerns extracted from the meeting.',options:{breakLine:true,bullet:true}},
-  {text:'Those become constraints — so the gate holds a',options:{breakLine:true,bullet:true}},
-  {text:'    recommendation the client is not ready to hear.',options:{}}],
-  {x:7.15,y:3.55,w:5.15,h:1.5,fontFace:B,fontSize:12.5,color:MUT,paraSpaceAfter:7,isTextBox:true,margin:0})
-
-s.addImage({path:S+'c-recorder.png',x:0.7,y:5.5,w:1.03,h:1.3})
-s.addText('Consent is captured and logged before the microphone opens.',
-  {x:1.95,y:5.55,w:4.4,h:0.6,fontFace:B,fontSize:13.5,color:MUT,lineSpacing:20,isTextBox:true,margin:0})
-s.addText('Every other tool summarises the meeting and files a note.\nOurs feeds what was said back into what may be said next.',
-  {x:6.6,y:5.5,w:6.0,h:1.0,fontFace:H,fontSize:16.5,color:NAVY,lineSpacing:26,isTextBox:true,margin:0})
-foot(s,'No transcript exists in the supplied dataset, so none was fabricated — the analysis runs on the real notes instead')
+  {text:'Those become constraints \u2014 so the gate holds a recommendation the client is not ready to hear.',options:{bullet:true}}],
+  {x:5.0,y:5.45,w:7.3,h:1.1,fontFace:B,fontSize:13,color:MUT,lineSpacing:19,paraSpaceAfter:5,isTextBox:true,margin:0})
+foot(s,'The tone analysis runs live on the written notes. No transcript exists in the supplied dataset, so none was fabricated')
 s.addNotes('The same relationship agent currently runs on written RM notes; a consented transcript is the next input channel. Consent capture is built. No transcript exists in the supplied dataset, so none was fabricated.')
 
 /* 12 ─ close */
 s = p.addSlide(); s.background={color:NAVY}
-eyebrow(s,'FORESIGHT RM',0.9,0.75,'C9A94A')
-s.addText([
-  {text:'Lau’s flat, shares, bond, derivative, job and loan are one bet —',options:{breakLine:true}},
-  {text:'and no system in the bank could see it.',options:{breakLine:true}},
-  {text:' ',options:{breakLine:true}},
-  {text:'Priscilla worked it out in March and typed it into a note.',options:{breakLine:true}},
-  {text:'Nothing read it.',options:{breakLine:true}},
-  {text:' ',options:{breakLine:true}},
-  {text:'We read the notes with the numbers — and we know when the',options:{breakLine:true}},
-  {text:'right answer is still the wrong thing to say.',options:{}}],
-  {x:0.9,y:1.85,w:11.5,h:3.6,fontFace:H,fontSize:25,color:W,lineSpacing:40,isTextBox:true,margin:0})
+eyebrow(s,'FORESIGHT RM',0.9,0.7,'C9A94A')
+;[['Lau\u2019s flat, shares, bond, derivative, job and loan are one bet \u2014','and no system in the bank could see it.',1.45],
+  ['Priscilla worked it out in March and typed it into a note.','Nothing read it.',2.72],
+  ['We read the notes with the numbers \u2014 and we know when the','right answer is still the wrong thing to say.',3.99]
+].forEach(([a,b,y])=>{
+  s.addText([{text:a,options:{breakLine:true}},{text:b,options:{}}],
+    {x:0.9,y,w:11.5,h:1.05,fontFace:H,fontSize:24,color:W,lineSpacing:36,isTextBox:true,margin:0})
+})
+s.addShape(p.ShapeType.rect,{x:0.9,y:5.30,w:11.8,h:0.014,fill:{color:'C9A94A'}})
+;[['7 of 20','Clients where an RM note changed the answer'],
+  ['6','Findings held, each with a reason and a revisit date'],
+  ['48','Findings this cycle, produced by six agents'],
+  ['USD 8.50m','Idle cash above mandate, deployable today']
+].forEach(([v,l],i)=>{
+  const x=0.9+i*2.98
+  s.addShape(p.ShapeType.rect,{x,y:5.58,w:0.5,h:0.012,fill:{color:'C9A94A'}})
+  s.addText(v,{x,y:5.72,w:2.8,h:0.5,fontFace:H,fontSize:29,color:W,charSpacing:1,isTextBox:true,margin:0})
+  s.addText(l,{x,y:6.26,w:2.7,h:0.6,fontFace:B,fontSize:12,color:'9AAAE0',lineSpacing:16,isTextBox:true,margin:0})
+})
 s.addText('github.com/jvvinoth/Foresight-RM',
-  {x:0.9,y:6.2,w:11.5,h:0.4,fontFace:B,fontSize:14.5,color:'7186D3',isTextBox:true,margin:0})
-s.addNotes('Close on these three sentences, then move to the demonstration.')
+  {x:0.9,y:6.98,w:11.5,h:0.34,fontFace:B,fontSize:13.5,color:'6E86D8',isTextBox:true,margin:0})
+s.addNotes('Close on the three sentences, then let the four numbers sit on screen through questions. Every one of them is read from the run, not asserted: seven of twenty clients had an RM note change the answer, six findings were held with a reason and a revisit date, forty-eight findings came from six agents, and USD 8.50m of idle cash sits above mandate.')
 
 p.writeFile({fileName:'Foresight-RM-Pitch.pptx'}).then(f=>console.log('wrote',f))
