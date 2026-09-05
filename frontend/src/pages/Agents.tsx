@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import {
   Activity,
   ArrowRight,
@@ -82,7 +82,8 @@ const KIND_LABEL: Record<DeskConflict['objection']['kind'], string> = {
 
 export default function Agents() {
   const roster = useDeskRoster()
-  const [clientId, setClientId] = useState('')
+  const [params] = useSearchParams()
+  const [clientId, setClientId] = useState(params.get('client') ?? '')
   const [step, setStep] = useState(0)
   const desk = useDesk(clientId)
 
