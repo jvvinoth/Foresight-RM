@@ -1,0 +1,192 @@
+const pptx = require('pptxgenjs')
+const p = new pptx()
+p.layout = 'LAYOUT_WIDE'            // 13.33 x 7.5
+p.author = 'Foresight Labs'
+p.title  = 'Foresight RM — Julius Baer Wealth Intelligence'
+
+const NAVY='141E55', INK='1D2A6D', MUT='5E6976', LIGHT='F6F7F9',
+      IRON='CCD0D1', RED='A8322B', GOLD='A68430', GRN='2C6A4F', W='FFFFFF'
+const S='screens/'
+const H='Calibri', B='Calibri'
+
+// tracked caps, the Julius Baer heading treatment
+const cap = (t,o={}) => ({ text:t, options:{ fontFace:H, charSpacing:3.5, bold:false, ...o } })
+
+function eyebrow(s,t,x,y,color=GOLD){
+  s.addText(t,{x,y,w:9,h:0.28,fontFace:H,fontSize:11,color,charSpacing:3,isTextBox:true,margin:0})
+}
+function title(s,t,x,y,color=NAVY,size=34,w=11.9){
+  s.addText(t.toUpperCase(),{x,y,w,h:0.85,fontFace:H,fontSize:size,color,charSpacing:3.5,isTextBox:true,margin:0,valign:'top'})
+}
+function foot(s,t){
+  s.addText(t,{x:0.7,y:6.95,w:11.9,h:0.3,fontFace:B,fontSize:9.5,color:'8B96A3',isTextBox:true,margin:0})
+}
+
+/* 1 ─ title */
+let s = p.addSlide(); s.background={color:NAVY}
+s.addText('FORESIGHT RM',{x:0.9,y:2.25,w:11.5,h:1.0,fontFace:H,fontSize:52,color:W,charSpacing:8,isTextBox:true,margin:0})
+s.addText('The bank already knows. It has never told anyone.',
+  {x:0.9,y:3.35,w:11,h:0.6,fontFace:H,fontSize:23,color:'A3B1E5',isTextBox:true,margin:0})
+s.addText([
+  {text:'Julius Baer · Wealth Intelligence',options:{breakLine:true}},
+  {text:'Foresight Labs · SingHacks 2026',options:{}}],
+  {x:0.9,y:4.5,w:8,h:0.9,fontFace:B,fontSize:13,color:'7186D3',lineSpacing:22,isTextBox:true,margin:0})
+s.addText('20 clients · 6 agents · 12 data files · 28 RM notes',
+  {x:0.9,y:6.35,w:11,h:0.4,fontFace:H,fontSize:12,color:'4A5FBD',charSpacing:2,isTextBox:true,margin:0})
+s.addNotes('Foresight RM. The line on screen is the whole thesis: the information already exists inside the bank. Nothing joins it up.')
+
+/* 2 ─ the problem */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'THE PROBLEM',0.7,0.55)
+title(s,'Six holdings. Every one inside its limit.',0.7,0.95)
+s.addText([
+  {text:'Lau Chi Ming holds an apartment, a share, a bond and a derivative.',options:{breakLine:true}},
+  {text:'The bank shows six tidy rows. Nothing is flagged, because nothing ',options:{breakLine:true}},
+  {text:'individually breaks a rule.',options:{}}],
+  {x:0.7,y:2.05,w:5.1,h:1.4,fontFace:B,fontSize:15,color:MUT,lineSpacing:26,isTextBox:true,margin:0})
+s.addText('This is what every wealth platform shows today.',
+  {x:0.7,y:3.6,w:5.1,h:0.6,fontFace:H,fontSize:16,color:NAVY,italic:true,isTextBox:true,margin:0})
+s.addImage({path:S+'c-reveal-before.png',x:6.15,y:1.6,w:6.5,h:2.24})
+foot(s,'Screen: Client 360 → Exposure, before the reveal')
+s.addNotes('Start here. Six rows, all green, all within limit. This is the state of the art.')
+
+/* 3 ─ the number */
+s = p.addSlide(); s.background={color:NAVY}
+eyebrow(s,'ONE CLICK LATER',0.7,0.55,'C9A94A')
+s.addText('49.0%',{x:0.7,y:1.15,w:5,h:1.5,fontFace:H,fontSize:88,color:W,bold:false,isTextBox:true,margin:0})
+s.addText('of his wealth is one Hong Kong property developer',
+  {x:0.72,y:2.6,w:5,h:0.9,fontFace:H,fontSize:18,color:'CCD5F2',isTextBox:true,margin:0})
+s.addText([
+  {text:'A structured product hid the exposure behind a wrapper.',options:{breakLine:true,bullet:true}},
+  {text:'His loan is secured on the same asset.',options:{breakLine:true,bullet:true}},
+  {text:'His career is Hong Kong property development.',options:{breakLine:true,bullet:true}},
+  {text:'He owes HKD 60m to a project in November.',options:{bullet:true}}],
+  {x:0.85,y:3.9,w:4.9,h:2.0,fontFace:B,fontSize:13.5,color:'A3B1E5',paraSpaceAfter:9,isTextBox:true,margin:0})
+s.addImage({path:S+'c-reveal-after.png',x:6.15,y:1.55,w:6.5,h:2.6})
+s.addText('Mandate limit for a single position: 10%',
+  {x:6.15,y:4.35,w:6.5,h:0.4,fontFace:H,fontSize:13,color:'C9A94A',charSpacing:1,isTextBox:true,margin:0})
+s.addNotes('One click. The six rows collapse into one bar. 49% against a 10% limit — and three more exposures that were never in the portfolio at all.')
+
+/* 4 ─ why nobody saw it */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'WHY NOBODY SAW IT',0.7,0.55)
+title(s,'Three systems that never speak',0.7,0.95)
+const boxes=[
+  ['PORTFOLIO SYSTEM','Six separate holdings','“All fine”'],
+  ['CREDIT SYSTEM','One loan, well covered','“All fine”'],
+  ['CRM NOTES','A note nobody queries','never read']]
+boxes.forEach(([h1,h2,h3],i)=>{
+  const x=0.7+i*4.05
+  s.addShape(p.ShapeType.roundRect,{x,y:2.1,w:3.75,h:1.75,fill:{color:LIGHT},line:{color:IRON,width:1},rectRadius:0.06})
+  s.addText(h1,{x:x+0.28,y:2.32,w:3.2,h:0.3,fontFace:H,fontSize:10.5,color:MUT,charSpacing:2,isTextBox:true,margin:0})
+  s.addText(h2,{x:x+0.28,y:2.72,w:3.2,h:0.4,fontFace:B,fontSize:14,color:NAVY,isTextBox:true,margin:0})
+  s.addText(h3,{x:x+0.28,y:3.24,w:3.2,h:0.4,fontFace:H,fontSize:14,color:i===2?RED:GRN,italic:true,isTextBox:true,margin:0})
+})
+s.addShape(p.ShapeType.roundRect,{x:0.7,y:4.3,w:11.9,h:2.05,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
+s.addText('And the Relationship Manager had already worked it out.',
+  {x:1.05,y:4.5,w:11.2,h:0.4,fontFace:H,fontSize:14,color:GOLD,charSpacing:1.5,isTextBox:true,margin:0})
+s.addText('“the perpetual, the shares, the accumulator and his own development business are all the same bet.\nHe said that is why he is confident.”',
+  {x:1.05,y:4.95,w:11.2,h:0.85,fontFace:H,fontSize:16.5,color:NAVY,italic:true,lineSpacing:26,isTextBox:true,margin:0})
+s.addText('rm_notes.json · N-018 · 5 March 2026 · P. Ong    —    typed, filed, and never read against the numbers',
+  {x:1.05,y:5.88,w:11.2,h:0.3,fontFace:B,fontSize:11,color:MUT,isTextBox:true,margin:0})
+s.addNotes('The information existed. It sat in three places that never meet. She wrote it down in March.')
+
+/* 5 ─ what we built */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'WHAT WE BUILT',0.7,0.55)
+title(s,'Six agents read all twelve files together',0.7,0.95)
+s.addImage({path:S+'c-stats.png',x:0.7,y:2.0,w:11.9,h:2.81})
+const ag=[['01 MONITOR','what changed'],['02 EXPOSURE','what they really hold'],['03 RESILIENCE','what breaks first'],
+          ['04 OPPORTUNITY','what is unclaimed'],['05 SUITABILITY','breach or authorised'],['06 RELATIONSHIP','how to say it']]
+ag.forEach(([a,b2],i)=>{
+  const x=0.7+(i%6)*1.985
+  s.addText(a,{x,y:5.1,w:1.9,h:0.25,fontFace:H,fontSize:9.5,color:i===5?GOLD:INK,charSpacing:1,isTextBox:true,margin:0})
+  s.addText(b2,{x,y:5.38,w:1.9,h:0.5,fontFace:B,fontSize:11,color:MUT,isTextBox:true,margin:0})
+})
+s.addText('Detectors compute. Agents narrate. No agent originates a number.',
+  {x:0.7,y:6.15,w:11.9,h:0.4,fontFace:H,fontSize:15,color:NAVY,charSpacing:1,isTextBox:true,margin:0})
+foot(s,'Screen: Priority Radar — 20 clients ranked by who needs attention today, not by size')
+s.addNotes('Six agents, twelve files. Every figure computed in Python. The model only writes sentences and translates.')
+
+/* 6 ─ the differentiator */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'THE DIFFERENTIATOR',0.7,0.55,RED)
+title(s,'Our AI overrules itself',0.7,0.95)
+s.addText('Suitability calls Margarethe a critical breach: 71.46% equity against a 10–30% band. It is right. Relationship objects — she was widowed six months ago and asked that nothing be changed. The gate holds the finding, and gives the RM a different door in.',
+  {x:0.7,y:1.95,w:11.9,h:0.85,fontFace:B,fontSize:14,color:MUT,lineSpacing:24,isTextBox:true,margin:0})
+s.addImage({path:S+'c-desk.png',x:1.93,y:2.95,w:9.47,h:3.95})
+foot(s,'Screen: The Desk — every objection is extracted from a dated, attributed RM note')
+s.addNotes('This is the slide that wins it. Every other team\'s AI shouts alerts. Ours knows when to stay quiet, says why, and says when to come back.')
+
+/* 7 ─ what could happen next */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'WHAT COULD HAPPEN NEXT',0.7,0.55)
+title(s,'A 5% fall triggers the margin call',0.7,0.95)
+s.addText([
+  {text:'His loan is secured on the very thing he is concentrated in.',options:{breakLine:true}},
+  {text:'So the usual remedy — sell something to raise cash — makes',options:{breakLine:true}},
+  {text:'the ratio worse, not better.',options:{}}],
+  {x:0.7,y:2.05,w:4.9,h:1.3,fontFace:B,fontSize:15,color:MUT,lineSpacing:26,isTextBox:true,margin:0})
+;[['Today','69.41%',GRN],['−5%','73.06%',RED],['−10%','77.12%',RED],['−20%','86.76%',RED]].forEach(([k,v,c],i)=>{
+  const y=3.6+i*0.72
+  s.addText(k,{x:0.7,y,w:1.4,h:0.4,fontFace:B,fontSize:14,color:MUT,isTextBox:true,margin:0})
+  s.addText(v,{x:2.05,y:y-0.06,w:1.8,h:0.5,fontFace:H,fontSize:22,color:c,isTextBox:true,margin:0})
+  if(i>0) s.addText('margin call',{x:3.9,y:y+0.03,w:1.7,h:0.35,fontFace:H,fontSize:11,color:RED,charSpacing:1,isTextBox:true,margin:0})
+})
+s.addImage({path:S+'c-outlook.png',x:6.15,y:1.9,w:6.5,h:2.89})
+s.addText('Computed from real lending values — not typed in.',
+  {x:6.15,y:5.0,w:6.5,h:0.4,fontFace:H,fontSize:13,color:GOLD,charSpacing:1,isTextBox:true,margin:0})
+s.addNotes('The brief asks for what could happen next. These come from the actual credit file, shocked.')
+
+/* 8 ─ trust */
+s = p.addSlide(); s.background={color:LIGHT}
+eyebrow(s,'WHY A BANK COULD RUN THIS',0.7,0.55)
+title(s,'Every number is checkable',0.7,0.95)
+const t=[['8','deliberate data traps in the dataset, each handled in named code'],
+         ['48','findings, every one carrying its file, row and dated note'],
+         ['1','command — python backend/verify.py — prints every claim with its source rows']]
+t.forEach(([n,d],i)=>{
+  const y=2.05+i*1.25
+  s.addText(n,{x:0.7,y:y-0.12,w:1.3,h:0.9,fontFace:H,fontSize:44,color:NAVY,isTextBox:true,margin:0})
+  s.addText(d,{x:2.1,y:y+0.12,w:4.3,h:0.9,fontFace:B,fontSize:13.5,color:MUT,lineSpacing:21,isTextBox:true,margin:0})
+})
+s.addImage({path:S+'08-integrity.png',x:6.6,y:1.85,w:6.0,h:3.67})
+s.addText('Custody accounts carry no mandate. A documented waiver is not a breach. Missing cost basis means we decline to quote a gain.',
+  {x:0.7,y:6.0,w:11.9,h:0.6,fontFace:H,fontSize:14,color:NAVY,italic:true,lineSpacing:22,isTextBox:true,margin:0})
+s.addNotes('Judges will ask whether they can trust the numbers. This is the answer.')
+
+/* 9 ─ the RM stays central */
+s = p.addSlide(); s.background={color:W}
+eyebrow(s,'STRATEGIC IMPACT',0.7,0.55)
+title(s,'The Relationship Manager stays at the centre',0.7,0.95)
+s.addText([
+  {text:'Nothing reaches a client without her approval.',options:{breakLine:true,bullet:true}},
+  {text:'Drafts are written in the client’s own reporting language.',options:{breakLine:true,bullet:true}},
+  {text:'Every approval is stored with the original AI draft beside it.',options:{breakLine:true,bullet:true}},
+  {text:'If she leaves, 23 years of relationship does not leave with her.',options:{bullet:true}}],
+  {x:0.85,y:2.05,w:5.0,h:2.0,fontFace:B,fontSize:14,color:MUT,paraSpaceAfter:12,isTextBox:true,margin:0})
+s.addShape(p.ShapeType.roundRect,{x:0.7,y:4.4,w:5.3,h:1.9,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
+s.addText('Relationship is the only agent that can veto another. A financial finding can be suppressed by a human fact — never the reverse.',
+  {x:1.0,y:4.7,w:4.75,h:1.35,fontFace:H,fontSize:15,color:NAVY,lineSpacing:25,isTextBox:true,margin:0})
+s.addImage({path:S+'c-brief.png',x:6.35,y:1.9,w:6.3,h:3.25})
+foot(s,'Screen: Conversation brief — drafted in Traditional Chinese, approved by the RM before it is sent')
+s.addNotes('Preserving the central role of the RM is in the rubric. For us it is the architecture, not a caveat.')
+
+/* 10 ─ close */
+s = p.addSlide(); s.background={color:NAVY}
+eyebrow(s,'FORESIGHT RM',0.9,0.75,'C9A94A')
+s.addText([
+  {text:'Lau’s flat, shares, bond, derivative, job and loan are one bet —',options:{breakLine:true}},
+  {text:'and no system in the bank could see it.',options:{breakLine:true}},
+  {text:' ',options:{breakLine:true}},
+  {text:'Priscilla worked it out in March and typed it into a note.',options:{breakLine:true}},
+  {text:'Nothing read it.',options:{breakLine:true}},
+  {text:' ',options:{breakLine:true}},
+  {text:'We read the notes with the numbers — and we know when the',options:{breakLine:true}},
+  {text:'right answer is still the wrong thing to say.',options:{}}],
+  {x:0.9,y:1.85,w:11.5,h:3.6,fontFace:H,fontSize:25,color:W,lineSpacing:40,isTextBox:true,margin:0})
+s.addText('github.com/jvvinoth/Foresight-RM',
+  {x:0.9,y:6.2,w:11.5,h:0.4,fontFace:B,fontSize:13,color:'7186D3',isTextBox:true,margin:0})
+s.addNotes('Close on these three sentences. Then hand over to the demo.')
+
+p.writeFile({fileName:'Foresight-RM-Pitch.pptx'}).then(f=>console.log('wrote',f))

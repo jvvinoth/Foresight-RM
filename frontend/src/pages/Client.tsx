@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Ban, Check, Clock, Languages, Pencil, Quote, Send, Sparkles } from 'lucide-react'
 import { AgentStrip } from '../components/AgentStrip'
 import { FindingCard } from '../components/FindingCard'
@@ -33,7 +33,11 @@ const TABS: { id: Tab; label: string; note: string }[] = [
 
 export default function Client() {
   const { id = '' } = useParams()
-  const [tab, setTab] = useState<Tab>('findings')
+  const [params] = useSearchParams()
+  // ?tab= and ?reveal=1 let a recording or a capture open on the exact state
+  // it needs to show, without clicking through first.
+  const initialTab = (params.get('tab') as Tab) || 'findings'
+  const [tab, setTab] = useState<Tab>(initialTab)
 
   const client = useClient(id)
   const findings = useFindings(id)
@@ -299,7 +303,7 @@ export default function Client() {
 
             {tab === 'reveal' &&
               (reveal.data && reveal.data.rows.length ? (
-                <Reveal data={reveal.data} />
+                <Reveal data={reveal.data} startRevealed={params.get('reveal') === '1'} />
               ) : (
                 <div className="surface p-8 text-center text-[14px] text-jb-500">
                   {reveal.isLoading

@@ -47,8 +47,14 @@ function useMounted(active: boolean) {
   return on
 }
 
-export function Reveal({ data }: { data: RevealData }) {
-  const [revealed, setRevealed] = useState(false)
+export function Reveal({
+  data,
+  startRevealed = false,
+}: {
+  data: RevealData
+  startRevealed?: boolean
+}) {
+  const [revealed, setRevealed] = useState(startRevealed)
   const grown = useMounted(revealed)
   const shown = useCountUp(data.corePct, revealed)
 

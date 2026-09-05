@@ -8,6 +8,11 @@ import Integrity from './pages/Integrity'
 
 function Protected({ children }: { children: React.ReactNode }) {
   const loc = useLocation()
+  // ?rm=demo deep-links straight to a screen without signing in first, so a
+  // capture or a recording can start on the page it needs to show.
+  if (new URLSearchParams(loc.search).get('rm') === 'demo') {
+    localStorage.setItem('foresight.rm', 'RM-SG-014')
+  }
   const signedIn = Boolean(localStorage.getItem('foresight.rm'))
   if (!signedIn) return <Navigate to="/" replace state={{ from: loc.pathname }} />
   return <Shell>{children}</Shell>
