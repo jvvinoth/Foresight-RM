@@ -14,7 +14,11 @@ import {
   Gift,
   Copy,
   Check,
-  X
+  X,
+  Mic,
+  Pause,
+  Play,
+  Square
 } from 'lucide-react'
 import { AgentStrip } from '../components/AgentStrip'
 import { Eyebrow, GateBadge, usd } from '../components/ui'
@@ -187,7 +191,29 @@ export default function Dashboard() {
   const [scenario, setScenario] = useState<ScenarioId>('baseline')
   const [showSchedules, setShowSchedules] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  
+  // Voice Briefing Recorder States
+  const [activeRecordClient, setActiveRecordClient] = useState<{ id: string; name: string } | null>(null)
+  const [consentGiven, setConsentGiven] = useState(false)
+  const [isRecording, setIsRecording] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [recordSeconds, setRecordSeconds] = useState(0)
+  const [recordingSaved, setRecordingSaved] = useState(false)
+
   const { data, isLoading, error } = useBook()
+
+  // Recording Timer effect
+  React.useEffect(() => {
+    let interval: any = null
+    if (isRecording && !isPaused) {
+      interval = setInterval(() => {
+        setRecordSeconds((prev) => prev + 1)
+      }, 1000)
+    } else {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [isRecording, isPaused])
 
   const activity = useMemo(() => {
     const counts: Record<string, number> = {}
@@ -464,9 +490,27 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    {/* Floating Action/Status Icon */}
-                    <div className="absolute top-3 right-3 text-jb-300 opacity-20 group-hover:opacity-100 group-hover:text-jb-600 transition-all duration-300">
-                      {isCritical ? <ShieldAlert size={14} /> : <AlertTriangle size={14} />}
+                    {/* Floating Action/Status Icon & Briefing Recorder Trigger */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          setActiveRecordClient({ id: c.id, name: c.name })
+                          setConsentGiven(false)
+                          setIsRecording(false)
+                          setIsPaused(false)
+                          setRecordSeconds(0)
+                          setRecordingSaved(false)
+                        }}
+                        title="Record Meeting Brief"
+                        className="p-1.5 rounded-full bg-white hover:bg-jb-50 border border-iron-300 shadow-3xs cursor-pointer text-jb-900 group/btn hover:scale-105 transition-all duration-200"
+                      >
+                        <Mic size={13} className="text-signal-gold group-hover/btn:text-jb-900 animate-pulse" />
+                      </button>
+                      <div className="text-jb-300 opacity-30 group-hover:opacity-100 group-hover:text-jb-600 transition-all duration-300">
+                        {isCritical ? <ShieldAlert size={14} /> : <AlertTriangle size={14} />}
+                      </div>
                     </div>
                   </Link>
                 )
@@ -740,6 +784,164 @@ export default function Dashboard() {
               })}
             </div>
           </aside>
+        </>
+      )}
+
+      {/* Premium Voice Briefing Recorder Modal / Popup */}
+      {activeRecordClient && (
+        <>
+          {/* Dark blur backdrop */}
+          <div
+            onClick={() => {
+              if (!isRecording) {
+                setActiveRecordClient(null)
+              }
+            }}
+            className="fixed inset-0 bg-jb-950/45 backdrop-blur-sm z-50 animate-backdrop-in"
+          />
+
+          {/* Interactive Modal Cockpit */}
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl border border-jb-300/30 p-6 w-full max-w-[420px] shadow-2xl flex flex-col gap-4 text-left relative animate-drawer-in">
+              
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-iron-200 pb-3">
+                <div className="flex items-center gap-2 text-jb-900">
+                  <Mic size={18} className="text-signal-gold animate-pulse" />
+                  <h2 className="font-display text-[18px] font-bold tracking-tight">Briefing Recorder</h2>
+                </div>
+                {!isRecording && (
+                  <button
+                    onClick={() => setActiveRecordClient(null)}
+                    className="text-jb-400 hover:text-jb-900 cursor-pointer p-1 rounded-full hover:bg-iron-100 transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </div>
+
+              {/* Step 1: Verbal Consent Screen */}
+              {!consentGiven ? (
+                <div className="flex flex-col gap-4 py-2">
+                  <div className="p-3 bg-jb-50 rounded-xl border border-jb-100 flex flex-col gap-2">
+                    <span className="font-mono text-[9px] uppercase tracking-wider text-jb-500 font-bold">Client confidentiality disclosure</span>
+                    <p className="text-[12px] leading-relaxed text-jb-700 font-sans">
+                      Julius Baer compliance policies require explicit verbal client consent prior to recording any portfolio, SAA, or relationship briefing.
+                    </p>
+                    <div className="border-t border-iron-200 mt-1 pt-2 flex flex-col gap-1 text-[11px] font-mono text-jb-400">
+                      <span>• Client: {activeRecordClient.name}</span>
+                      <span>• Location: Singapore Booking Centre</span>
+                    </div>
+                  </div>
+
+                  <p className="text-[12.5px] leading-relaxed text-jb-800 font-medium">
+                    Do you have the client's verbal consent to record this briefing?
+                  </p>
+
+                  <div className="flex gap-3 mt-1">
+                    <button
+                      onClick={() => setActiveRecordClient(null)}
+                      className="flex-1 py-2.5 rounded-full border border-iron-300 hover:border-jb-400 hover:bg-jb-50/20 text-[12.5px] text-jb-700 transition-all font-sans cursor-pointer text-center"
+                    >
+                      No, Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        setConsentGiven(true)
+                        setIsRecording(true)
+                        setIsPaused(false)
+                        setRecordSeconds(0)
+                        setRecordingSaved(false)
+                      }}
+                      className="flex-1 py-2.5 rounded-full bg-signal-good text-white hover:bg-jb-900 transition-all text-[12.5px] font-semibold font-sans cursor-pointer text-center shadow-xs flex items-center justify-center gap-1.5"
+                    >
+                      <Check size={14} />
+                      <span>Verbal Consent Confirmed</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Step 2: Live Recording Cockpit Screen */
+                <div className="flex flex-col gap-5 py-2">
+                  
+                  {/* Active Recording State Visual */}
+                  {!recordingSaved ? (
+                    <div className="flex flex-col items-center justify-center py-6 bg-iron-100/50 rounded-2xl border border-iron-200 gap-4">
+                      
+                      {/* Equalizer Soundwave Animation */}
+                      <div className="flex items-end justify-center gap-1.5 h-12 w-full">
+                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-1' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1.5 rounded-full bg-jb-900 ${isRecording && !isPaused ? 'animate-wave-2' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-3' : 'h-4'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1.5 rounded-full bg-jb-900 ${isRecording && !isPaused ? 'animate-wave-4' : 'h-3'}`} style={{ transformOrigin: 'bottom' }} />
+                        <div className={`w-1.5 rounded-full bg-signal-gold ${isRecording && !isPaused ? 'animate-wave-5' : 'h-2'}`} style={{ transformOrigin: 'bottom' }} />
+                      </div>
+
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="font-mono text-[22px] font-bold text-jb-900 leading-none tracking-wider">
+                          {Math.floor(recordSeconds / 60).toString().padStart(2, '0')}:{(recordSeconds % 60).toString().padStart(2, '0')}
+                        </span>
+                        <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${isPaused ? 'text-signal-warn' : 'text-signal-critical animate-pulse'}`}>
+                          {isPaused ? 'Recording Paused' : 'Live Voice Capture...'}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Step 3: Success state */
+                    <div className="flex flex-col items-center text-center py-6 bg-signal-good/5 rounded-2xl border border-signal-good/20 gap-3">
+                      <div className="h-10 w-10 rounded-full bg-signal-good/10 text-signal-good flex items-center justify-center">
+                        <Check size={20} />
+                      </div>
+                      <div className="flex flex-col gap-1 px-4 text-center">
+                        <h3 className="text-[14.5px] font-bold text-jb-900">Briefing Saved Successfully</h3>
+                        <p className="text-[12px] leading-relaxed text-jb-500 font-sans">
+                          Meeting brief for **{activeRecordClient.name}** has been securely recorded and cached locally. Analytical agents are queued to digest.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Cockpit Actions */}
+                  {!recordingSaved ? (
+                    <div className="flex items-center gap-3">
+                      {/* Pause / Resume Button */}
+                      <button
+                        onClick={() => setIsPaused(!isPaused)}
+                        className={`flex-1 py-2.5 rounded-full border text-[12.5px] font-medium font-sans flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
+                          isPaused
+                            ? 'bg-white text-jb-900 border-iron-300 hover:border-jb-500'
+                            : 'bg-white text-signal-warn border-signal-warn/25 hover:bg-signal-warn/5'
+                        }`}
+                      >
+                        {isPaused ? <Play size={13} /> : <Pause size={13} />}
+                        <span>{isPaused ? 'Resume Record' : 'Pause Record'}</span>
+                      </button>
+
+                      {/* Stop and Save Button */}
+                      <button
+                        onClick={() => {
+                          setIsRecording(false)
+                          setRecordingSaved(true)
+                        }}
+                        className="flex-1 py-2.5 rounded-full bg-signal-critical text-white hover:bg-jb-900 text-[12.5px] font-semibold font-sans flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-xs"
+                      >
+                        <Square size={12} fill="white" />
+                        <span>Stop & Save Brief</span>
+                      </button>
+                    </div>
+                  ) : (
+                    /* Close out action */
+                    <button
+                      onClick={() => setActiveRecordClient(null)}
+                      className="w-full py-2.5 rounded-full bg-jb-900 text-white hover:bg-jb-800 text-[12.5px] font-bold font-sans cursor-pointer text-center transition-all shadow-xs"
+                    >
+                      Done & return to Cockpit
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </>
       )}
     </div>

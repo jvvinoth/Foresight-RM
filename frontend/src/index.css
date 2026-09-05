@@ -162,6 +162,21 @@ body {
   animation: fade-in-backdrop 0.2s ease-out forwards;
 }
 
+@keyframes bounce-wave {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave-1 { animation: bounce-wave 0.8s ease-in-out infinite alternate; }
+.animate-wave-2 { animation: bounce-wave 1.1s ease-in-out infinite alternate; }
+.animate-wave-3 { animation: bounce-wave 0.9s ease-in-out infinite alternate; }
+.animate-wave-4 { animation: bounce-wave 1.3s ease-in-out infinite alternate; }
+.animate-wave-5 { animation: bounce-wave 0.7s ease-in-out infinite alternate; }
+
 @media (prefers-reduced-motion: reduce) {
   .agent-live {
     animation: none;
