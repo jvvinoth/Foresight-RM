@@ -2,6 +2,13 @@
 
 from pathlib import Path
 
+try:  # local development convenience; Railway injects real env vars
+    from dotenv import load_dotenv
+
+    load_dotenv(Path(__file__).resolve().parent / ".env")
+except Exception:
+    pass
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 CACHE_DIR = Path(__file__).resolve().parent / "cache"
