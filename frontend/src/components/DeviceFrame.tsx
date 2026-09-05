@@ -40,7 +40,7 @@ export function DeviceToggle({
         <span className="hidden lg:inline">Desktop</span>
       </button>
       <button
-        onClick={() => setDevice('ipad-portrait')}
+        onClick={() => setDevice('ipad-landscape')}
         title="iPad view — how the RM actually uses it"
         className={`flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] transition-colors ${
           onTablet ? 'bg-white/15 text-white' : 'text-white/55 hover:text-white'
