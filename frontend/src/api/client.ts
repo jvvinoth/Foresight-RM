@@ -226,6 +226,8 @@ export interface Position {
   weightPct: number
   avgCostLocal: number
   serviceModel: string
+  acquiredDate: string
+  valuationDate: string
 }
 
 export const useHoldings = (id: string) =>

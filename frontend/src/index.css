@@ -121,6 +121,15 @@ body {
   border-radius: 3px;
 }
 
+/* Hide scrollbar utility for clean sliding tabs and panels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 @keyframes pulse-ring {
   0% {
     box-shadow: 0 0 0 0 rgba(53, 73, 165, 0.35);

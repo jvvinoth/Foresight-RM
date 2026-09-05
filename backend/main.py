@@ -116,7 +116,10 @@ def client_holdings_api(client_id: str):
             "marketValueUsd": float(r["market_value_usd"]),
             "weightPct": float(r["weight_pct"]),
             "avgCostLocal": float(r["avg_cost_local"]) if r["avg_cost_local"] == r["avg_cost_local"] else 0.0,
-            "serviceModel": str(r["service_model"])
+            "serviceModel": str(r["service_model"]),
+            "acquiredDate": str(r["acquired_date"]),
+            "valuationDate": str(r["valuation_date"]),
+            "currency": str(r["instrument_ccy"])
         })
     positions.sort(key=lambda x: -x["marketValueUsd"])
     return {"positions": positions}
