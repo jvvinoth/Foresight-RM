@@ -34,7 +34,7 @@ s.addText([
   {x:0.9,y:4.5,w:8,h:0.9,fontFace:B,fontSize:14.5,color:'7186D3',lineSpacing:22,isTextBox:true,margin:0})
 s.addText('20 clients · 6 agents · 12 data files · 28 RM notes',
   {x:0.9,y:6.35,w:11,h:0.4,fontFace:H,fontSize:13.5,color:'4A5FBD',charSpacing:2,isTextBox:true,margin:0})
-s.addNotes('Foresight RM. The line on screen is the whole thesis: the information already exists inside the bank. Nothing joins it up.')
+s.addNotes('Open on the thesis: the information already exists inside the bank. It is held in systems that do not speak to each other.')
 
 /* 2 ─ the problem */
 s = p.addSlide(); s.background={color:W}
@@ -49,13 +49,13 @@ s.addText('This is what every wealth platform shows today.',
   {x:0.7,y:3.6,w:5.1,h:0.6,fontFace:H,fontSize:17.5,color:NAVY,italic:true,isTextBox:true,margin:0})
 s.addImage({path:S+'c-reveal-before.png',x:6.15,y:1.6,w:6.5,h:2.24})
 foot(s,'Screen: Client 360 → Exposure, before the reveal')
-s.addNotes('Start here. Six rows, all green, all within limit. This is the state of the art.')
+s.addNotes('Six positions, each within its own limit, nothing flagged. This is what a wealth platform shows today. Pause here before the next slide.')
 
 /* 3 ─ the number */
 s = p.addSlide(); s.background={color:NAVY}
 eyebrow(s,'ONE CLICK LATER',0.7,0.55,'C9A94A')
 s.addText('49.0%',{x:0.7,y:1.15,w:5,h:1.5,fontFace:H,fontSize:88,color:W,bold:false,isTextBox:true,margin:0})
-s.addText('of his wealth is one Hong Kong property developer',
+s.addText('of his wealth is one Hong Kong property bet',
   {x:0.72,y:2.6,w:5,h:0.9,fontFace:H,fontSize:18,color:'CCD5F2',isTextBox:true,margin:0})
 s.addText([
   {text:'A structured product hid the exposure behind a wrapper.',options:{breakLine:true,bullet:true}},
@@ -66,7 +66,7 @@ s.addText([
 s.addImage({path:S+'c-reveal-after.png',x:6.15,y:1.55,w:6.5,h:2.6})
 s.addText('Mandate limit for a single position: 10%',
   {x:6.15,y:4.35,w:6.5,h:0.4,fontFace:H,fontSize:14.5,color:'C9A94A',charSpacing:1,isTextBox:true,margin:0})
-s.addNotes('One click. The six rows collapse into one bar. 49% against a 10% limit — and three more exposures that were never in the portfolio at all.')
+s.addNotes('One click resolves the six positions into a single correlated bet: 49.0% of wealth against a 10% single-position limit, plus three exposures held outside the portfolio entirely. Pause after the limit figure.')
 
 /* 4 ─ why nobody saw it */
 s = p.addSlide(); s.background={color:W}
@@ -91,27 +91,27 @@ s.addText('“the perpetual, the shares, the accumulator and his own development
   {x:1.05,y:4.95,w:11.2,h:0.85,fontFace:H,fontSize:16.5,color:NAVY,italic:true,lineSpacing:26,isTextBox:true,margin:0})
 s.addText('rm_notes.json · N-018 · 5 March 2026 · P. Ong    —    typed, filed, and never read against the numbers',
   {x:1.05,y:5.88,w:11.2,h:0.3,fontFace:B,fontSize:13,color:MUT,isTextBox:true,margin:0})
-s.addNotes('The information existed. It sat in three places that never meet. She wrote it down in March.')
+s.addNotes('Three systems each report no problem. The Relationship Manager had already identified the correlation herself and recorded it on 5 March. Nothing read that note against the portfolio.')
 
 /* 5 ─ what we built */
 s = p.addSlide(); s.background={color:W}
 eyebrow(s,'WHAT WE BUILT',0.7,0.55)
 title(s,'Six agents read all twelve files together',0.7,0.95)
-s.addImage({path:S+'c-stats.png',x:0.7,y:2.05,w:11.9,h:2.81})
+s.addImage({path:S+'c-stats.png',x:0.7,y:2.6,w:11.9,h:1.07})
 const ag=[['monitor','01 MONITOR','what changed'],['exposure','02 EXPOSURE','what they really hold'],
           ['resilience','03 RESILIENCE','what breaks first'],['opportunity','04 OPPORTUNITY','what is unclaimed'],
           ['suitability','05 SUITABILITY','breach or authorised'],['relationship','06 RELATIONSHIP','how to say it']]
 ag.forEach(([ic,a,b2],i)=>{
   const x=0.7+i*1.985, chair=i===5
-  s.addShape(p.ShapeType.ellipse,{x,y:5.05,w:0.52,h:0.52,fill:{color:chair?'F6EFDC':'E6EBF9'}})
-  icon(s,ic+(chair?'-gold':'-navy'),x+0.115,5.165,0.29)
-  s.addText(a,{x,y:5.68,w:1.92,h:0.26,fontFace:H,fontSize:11,color:chair?GOLD:INK,charSpacing:1,isTextBox:true,margin:0})
-  s.addText(b2,{x,y:5.95,w:1.92,h:0.5,fontFace:B,fontSize:12.5,color:MUT,isTextBox:true,margin:0})
+  s.addShape(p.ShapeType.ellipse,{x,y:4.35,w:0.52,h:0.52,fill:{color:chair?'F6EFDC':'E6EBF9'}})
+  icon(s,ic+(chair?'-gold':'-navy'),x+0.115,4.465,0.29)
+  s.addText(a,{x,y:4.98,w:1.92,h:0.26,fontFace:H,fontSize:11,color:chair?GOLD:INK,charSpacing:1,isTextBox:true,margin:0})
+  s.addText(b2,{x,y:5.25,w:1.92,h:0.5,fontFace:B,fontSize:12.5,color:MUT,isTextBox:true,margin:0})
 })
 s.addText('Detectors compute. Agents narrate. No agent originates a number.',
-  {x:0.7,y:6.6,w:11.9,h:0.4,fontFace:H,fontSize:16.5,color:NAVY,charSpacing:1,isTextBox:true,margin:0})
+  {x:0.7,y:6.15,w:11.9,h:0.4,fontFace:H,fontSize:16.5,color:NAVY,charSpacing:1,isTextBox:true,margin:0})
 
-s.addNotes('Six agents, twelve files. Every figure computed in Python. The model only writes sentences and translates.')
+s.addNotes('Six agents read all twelve source files together. Every figure is computed in Python; the model narrates and translates but never originates a number.')
 
 /* 6 ─ the differentiator */
 s = p.addSlide(); s.background={color:W}
@@ -122,7 +122,7 @@ s.addText('Suitability calls Margarethe a critical breach: 71.46% equity against
   {x:0.7,y:1.95,w:11.9,h:0.85,fontFace:B,fontSize:16,color:MUT,lineSpacing:24,isTextBox:true,margin:0})
 s.addImage({path:S+'c-desk.png',x:1.93,y:2.95,w:9.47,h:3.95})
 foot(s,'Screen: The Desk — every objection is extracted from a dated, attributed RM note')
-s.addNotes('This is the slide that wins it. Every other team\'s AI shouts alerts. Ours knows when to stay quiet, says why, and says when to come back.')
+s.addNotes('Suitability correctly identifies a critical breach. The Relationship agent objects on a dated client instruction, and the gate holds the finding with a reason and a revisit date. The system can overrule its own analysis when a human fact requires it.')
 
 /* 7 ─ what could happen next */
 s = p.addSlide(); s.background={color:W}
@@ -142,7 +142,7 @@ s.addText([
 s.addImage({path:S+'c-outlook.png',x:6.15,y:1.9,w:6.5,h:2.89})
 s.addText('Computed from real lending values — not typed in.',
   {x:6.15,y:5.0,w:6.5,h:0.4,fontFace:H,fontSize:14.5,color:GOLD,charSpacing:1,isTextBox:true,margin:0})
-s.addNotes('The brief asks for what could happen next. These come from the actual credit file, shocked.')
+s.addNotes('The brief asks what could happen next. These loan-to-value figures are computed from the actual credit facility under collateral shocks, not estimated.')
 
 
 /* 8 ─ not every reason to call is a risk */
@@ -150,11 +150,11 @@ s = p.addSlide(); s.background={color:W}
 icon(s,'bell-gold',0.7,0.5,0.3)
 eyebrow(s,'THE OTHER HALF OF THE JOB',1.12,0.55)
 title(s,'Not every reason to call is a risk',0.7,0.95)
-s.addText('A risk engine only ever tells her something is wrong. Most of an RM’s job is the opposite — the client she has not spoken to in six months, the review falling due, the festival worth a note in their own language.',
+s.addText('A risk engine only ever tells her something is wrong. Much of an RM’s job is the opposite — a relationship reason to call when no finding is outstanding: months of silence, a review falling due, a holiday in the client’s own jurisdiction.',
   {x:0.7,y:2.0,w:6.4,h:1.1,fontFace:B,fontSize:16,color:MUT,lineSpacing:26,isTextBox:true,margin:0})
-;[['clock-navy','196 days','since anyone spoke to Aishah binti Rahman — USD 19.4m, and nothing is wrong'],
+;[['clock-navy','180 days','since anyone spoke to Grace Adeyemi-Lim — USD 19.1m, and no finding is above threshold'],
   ['bell-navy','5 days','until Tan Boon Huat’s review falls due, on the anniversary of a 23-year relationship'],
-  ['globe-navy','Mid-Autumn','drafted in Traditional and Simplified Chinese for the clients booked where it is a holiday']
+  ['globe-navy','Mid-Autumn','a public holiday in the Hong Kong booking centre — greeting drafted, the RM chooses who receives it']
 ].forEach(([ic,k,d],i)=>{
   const y=3.35+i*1.15
   s.addShape(p.ShapeType.ellipse,{x:0.7,y,w:0.5,h:0.5,fill:{color:'E6EBF9'}})
@@ -163,8 +163,8 @@ s.addText('A risk engine only ever tells her something is wrong. Most of an RM�
   s.addText(d,{x:1.4,y:y+0.32,w:5.6,h:0.62,fontFace:B,fontSize:13,color:MUT,lineSpacing:19,isTextBox:true,margin:0})
 })
 s.addImage({path:S+'c-concierge.png',x:8.05,y:1.5,w:2.55,h:5.23})
-foot(s,'Screen: Relationship Concierge — contact gaps, compliance dates and greetings, in one panel')
-s.addNotes('The deck is otherwise all risk. This is the relationship half — the reasons to call when nothing is wrong.')
+foot(s,'Screen: Relationship Concierge — contact gaps and compliance dates are computed from the data; greetings are drafted for the RM to choose')
+s.addNotes('Contact gaps and compliance dates are computed from the data. Greetings are drafted for the RM to select; the system does not assume a client observes any particular occasion.')
 
 /* 9 ─ trust */
 s = p.addSlide(); s.background={color:LIGHT}
@@ -181,12 +181,12 @@ t.forEach(([n,d],i)=>{
 s.addImage({path:S+'08-integrity.png',x:6.6,y:1.85,w:6.0,h:3.67})
 s.addText('Custody accounts carry no mandate. A documented waiver is not a breach. Missing cost basis means we decline to quote a gain.',
   {x:0.7,y:6.0,w:11.9,h:0.6,fontFace:H,fontSize:16,color:NAVY,italic:true,lineSpacing:22,isTextBox:true,margin:0})
-s.addNotes('Judges will ask whether they can trust the numbers. This is the answer.')
+s.addNotes('The dataset contains deliberate production artefacts. Each is handled in named code, and a single command reproduces every headline figure with its source rows.')
 
 /* 10 ─ the RM stays central */
 s = p.addSlide(); s.background={color:W}
 eyebrow(s,'STRATEGIC IMPACT',0.7,0.55)
-title(s,'The Relationship Manager stays at the centre',0.7,0.95)
+title(s,'The RM stays at the centre',0.7,0.95)
 s.addText([
   {text:'Nothing reaches a client without her approval.',options:{breakLine:true,bullet:true}},
   {text:'Drafts are written in the client’s own reporting language.',options:{breakLine:true,bullet:true}},
@@ -196,9 +196,9 @@ s.addText([
 s.addShape(p.ShapeType.roundRect,{x:0.7,y:4.4,w:5.3,h:1.9,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
 s.addText('Relationship is the only agent that can veto another. A financial finding can be suppressed by a human fact — never the reverse.',
   {x:1.0,y:4.7,w:4.75,h:1.35,fontFace:H,fontSize:16.5,color:NAVY,lineSpacing:25,isTextBox:true,margin:0})
-s.addImage({path:S+'c-brief.png',x:6.35,y:1.9,w:6.3,h:3.25})
-foot(s,'Screen: Conversation brief — drafted in Traditional Chinese, approved by the RM before it is sent')
-s.addNotes('Preserving the central role of the RM is in the rubric. For us it is the architecture, not a caveat.')
+s.addImage({path:S+'c-brief.png',x:6.35,y:1.95,w:6.28,h:3.6})
+foot(s,'Screen: the client-facing draft in Traditional Chinese — every figure in it was computed, and it stays a draft until the RM approves')
+s.addNotes('Preserving the central role of the Relationship Manager is a rubric criterion. Here it is architectural: the Relationship agent is the only one able to veto another, and no client communication is sent without RM approval.')
 
 /* 11 ─ closing the loop */
 s = p.addSlide(); s.background={color:LIGHT}
@@ -222,15 +222,13 @@ s.addText([
   {text:'    recommendation the client is not ready to hear.',options:{}}],
   {x:7.15,y:3.55,w:5.15,h:1.5,fontFace:B,fontSize:12.5,color:MUT,paraSpaceAfter:7,isTextBox:true,margin:0})
 
-s.addImage({path:S+'c-recorder.png',x:1.35,y:5.45,w:1.06,h:1.34})
-s.addImage({path:S+'c-recording.png',x:2.6,y:5.45,w:0.93,h:1.34})
-s.addImage({path:S+'c-recorder-saved.png',x:3.72,y:5.45,w:0.93,h:1.34})
-s.addText('consent  ·  capture  ·  filed',
-  {x:1.35,y:6.85,w:3.3,h:0.3,fontFace:H,fontSize:11,color:MUT,charSpacing:2,align:'center',isTextBox:true,margin:0})
+s.addImage({path:S+'c-recorder.png',x:0.7,y:5.5,w:1.03,h:1.3})
+s.addText('Consent is captured and logged before the microphone opens.',
+  {x:1.95,y:5.55,w:4.4,h:0.6,fontFace:B,fontSize:13.5,color:MUT,lineSpacing:20,isTextBox:true,margin:0})
 s.addText('Every other tool summarises the meeting and files a note.\nOurs feeds what was said back into what may be said next.',
-  {x:5.3,y:5.6,w:7.3,h:1.0,fontFace:H,fontSize:17.5,color:NAVY,lineSpacing:28,isTextBox:true,margin:0})
+  {x:6.6,y:5.5,w:6.0,h:1.0,fontFace:H,fontSize:16.5,color:NAVY,lineSpacing:26,isTextBox:true,margin:0})
 foot(s,'No transcript exists in the supplied dataset, so none was fabricated — the analysis runs on the real notes instead')
-s.addNotes('If asked about the recorder: consent capture is built, the analysis is built and running on written notes today. The audio input is the piece we did not wire, deliberately, because there is no transcript in the dataset and we were not going to fake one.')
+s.addNotes('The same relationship agent currently runs on written RM notes; a consented transcript is the next input channel. Consent capture is built. No transcript exists in the supplied dataset, so none was fabricated.')
 
 /* 12 ─ close */
 s = p.addSlide(); s.background={color:NAVY}
@@ -247,6 +245,6 @@ s.addText([
   {x:0.9,y:1.85,w:11.5,h:3.6,fontFace:H,fontSize:25,color:W,lineSpacing:40,isTextBox:true,margin:0})
 s.addText('github.com/jvvinoth/Foresight-RM',
   {x:0.9,y:6.2,w:11.5,h:0.4,fontFace:B,fontSize:14.5,color:'7186D3',isTextBox:true,margin:0})
-s.addNotes('Close on these three sentences. Then hand over to the demo.')
+s.addNotes('Close on these three sentences, then move to the demonstration.')
 
 p.writeFile({fileName:'Foresight-RM-Pitch.pptx'}).then(f=>console.log('wrote',f))
