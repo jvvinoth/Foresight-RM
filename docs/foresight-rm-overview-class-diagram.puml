@@ -1,0 +1,325 @@
+@startuml
+title Foresight RM — Frontend and Backend Overview Class Diagram
+
+left to right direction
+hide empty members
+skinparam shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FFFFFF
+skinparam ArrowColor #415A8B
+skinparam ArrowFontColor #141E55
+skinparam packageBorderColor #141E55
+skinparam packageFontColor #141E55
+skinparam classBorderColor #415A8B
+skinparam classBackgroundColor #F5F7FC
+
+' This is intentionally an overview: functional modules are represented as
+' service classes so their runtime dependencies are visible in one diagram.
+
+package "Frontend — React + TypeScript" #F7F9FF {
+  class "main.tsx" as Main <<entry point>> {
+    +render(App)
+  }
+
+  class App <<React component>> {
+    +routes: Login, Dashboard, Client, Agents, Integrity
+    -Protected(children)
+  }
+
+  class Login <<page>> {
+    +signIn()
+  }
+  class Dashboard <<page>> {
+    +useBook()
+    +useDeskRoster()
+  }
+  class ClientPage <<page>> {
+    +useClient(id)
+    +useFindings(id)
+    +generateDraft(id)
+    +approve(id, payload)
+  }
+  class AgentsPage <<page>> {
+    +useDesk(id)
+  }
+  class IntegrityPage <<page>> {
+    +useIntegrity()
+  }
+
+  class Shell <<layout component>>
+  class FindingCard <<component>>
+  class AgentStrip <<component>>
+  class Reveal <<component>>
+  class Outlook <<component>>
+  class UiKit <<components>> {
+    +GateBadge()
+    +SeverityBar()
+    +Stat()
+    +usd(value)
+  }
+
+  class ApiClient <<React Query adapter>> {
+    -get(path)
+    +useBook()
+    +useClient(id)
+    +useFindings(id)
+    +useReveal(id, on)
+    +useOutlook(id, on)
+    +useBrief(id, on)
+    +useHandover(id, on)
+    +useDesk(id)
+    +generateDraft(id)
+    +approve(id, payload)
+  }
+
+  interface FindingDTO <<API contract>> {
+    id: string
+    clientId: string
+    agent: AgentId
+    gate: Gate
+    evidence: Evidence[]
+    metrics: Metric[]
+  }
+  interface ClientDTO <<API contract>>
+  interface RelationshipDTO <<API contract>>
+  interface DeskDTO <<API contract>>
+  interface IntegrityDTO <<API contract>>
+}
+
+package "Backend — FastAPI + Python" #F7F9FF {
+  class "FastAPIApp" as API <<API facade>> {
+    +health()
+    +book()
+    +client(client_id)
+    +findings(client_id)
+    +reveal(client_id)
+    +outlook(client_id)
+    +brief(client_id)
+    +handover(client_id)
+    +draft(client_id)
+    +approve(client_id, request)
+    +desk(client_id)
+    +integrity()
+  }
+  class DraftRequest <<Pydantic request>>
+  class ApprovalRequest <<Pydantic request>> {
+    action: string
+    ai_draft: string
+    final_text: string
+    finding_ids: list[str]
+  }
+
+  package "Core orchestration" {
+    class Engine <<service>> {
+      +run_client(client_id): ClientRun
+      +run_book(): BookRow[]
+      +book_stats(): Stat[]
+    }
+    class Gate <<policy service>> {
+      +apply(finding, relationship): Finding
+      +score(finding): float
+    }
+    class Desk <<service>> {
+      +desk(client_id): DeskView
+      +roster(): DeskRosterRow[]
+      +conflicts(client_id): Conflict[]
+    }
+  }
+
+  package "Deterministic detectors" {
+    class MonitorDetector <<detector>> {
+      +detect(client_id): Finding[]
+    }
+    class ExposureDetector <<detector>> {
+      +detect(client_id): Finding[]
+      +cluster(client_id): ExposureCluster
+      +reveal(client_id): RevealView
+    }
+    class ResilienceDetector <<detector>> {
+      +detect(client_id): Finding[]
+      +facility_view(client_id): FacilityView
+      +ltv_path(facility): LtvPoint[]
+      +shocks(facility): ShockPoint[]
+    }
+    class OpportunityDetector <<detector>> {
+      +detect(client_id): Finding[]
+    }
+    class SuitabilityDetector <<detector>> {
+      +detect(client_id): Finding[]
+      +waivers(client_id): Waiver[]
+    }
+  }
+
+  package "AI-assisted communication" {
+    class RelationshipAgent <<agent>> {
+      +profile(client_id): Relationship
+    }
+    class NarratorAgent <<agent>> {
+      +brief(client_id, findings, relationship): Brief
+      +draft(client_id, findings, relationship): Draft
+    }
+    class AgentRuntime <<model gateway>> {
+      +run_agent(agent, prompt, schema, inputs, fallback): dict
+      +cache_key(agent, prompt, inputs): string
+      +cache_get(key): dict
+      +cache_set(key, value)
+      +cache_stats(): CacheStats
+    }
+  }
+
+  package "Data, configuration and audit" {
+    class Loader <<repository>> {
+      +client_holdings(client_id, snapshot): DataFrame
+      +managed_holdings(client_id, snapshot): DataFrame
+      +client_total_usd(client_id, snapshot): float
+      +instrument(instrument_id): dict
+      +notes_for(client_id): dict[]
+      +to_usd(amount, currency, snapshot): float
+    }
+    class Integrity <<control registry>> {
+      +TRAPS: list[dict]
+    }
+    class ApprovalStore <<repository>> {
+      +record(rm_id, client_id, finding_ids, action, ai_draft, final_text): Approval
+      +history(client_id, limit): Approval[]
+    }
+    class Config <<configuration>> {
+      +DATA_DIR
+      +CACHE_DIR
+      +DB_PATH
+      +TODAY
+    }
+  }
+
+  package "Domain contracts" {
+    class Evidence <<dataclass>> {
+      kind: file | note | event
+      source: string
+      ref: string
+      detail: string
+    }
+    class Metric <<dataclass>> {
+      label: string
+      value: string
+      alert: bool
+      sub: string
+    }
+    class Finding <<dataclass>> {
+      id: string
+      client_id: string
+      agent: AgentId
+      severity: Severity
+      gate: Gate
+      materiality: float
+      urgency: float
+      +to_dict(): dict
+    }
+    class Relationship <<structured output>>
+    class Brief <<structured output>>
+    class Approval <<audit record>>
+  }
+}
+
+class "Synthetic CSV data\nclients, portfolios, holdings, instruments, mandates\ntransactions, facilities, commitments, cash needs\nmarket context, events, RM notes" as CSV <<data source>>
+class "SQLite\nbackend/audit.db" as SQLite <<database>>
+class "Structured response cache\nbackend/cache/*.json" as Cache <<cache>>
+class "Anthropic API\noptional structured calls" as Anthropic <<external API>>
+
+' Frontend composition and API use
+Main --> App
+App *-- Login
+App *-- Dashboard
+App *-- ClientPage
+App *-- AgentsPage
+App *-- IntegrityPage
+App *-- Shell
+Dashboard ..> ApiClient
+ClientPage ..> ApiClient
+AgentsPage ..> ApiClient
+IntegrityPage ..> ApiClient
+ClientPage *-- FindingCard
+ClientPage *-- Reveal
+ClientPage *-- Outlook
+Dashboard *-- AgentStrip
+FindingCard ..> FindingDTO
+ApiClient ..> FindingDTO
+ApiClient ..> ClientDTO
+ApiClient ..> RelationshipDTO
+ApiClient ..> DeskDTO
+ApiClient ..> IntegrityDTO
+ApiClient --> API : HTTP /api/*
+
+' API facade delegates only; it does not calculate portfolio facts
+API ..> Engine : book / client / findings
+API ..> ExposureDetector : reveal
+API ..> ResilienceDetector : outlook
+API ..> NarratorAgent : brief / draft
+API ..> ApprovalStore : approve / history
+API ..> Desk : desk views
+API ..> Integrity
+API ..> ApprovalRequest
+API ..> DraftRequest
+
+' Core calculation pipeline
+Engine *-- MonitorDetector
+Engine *-- ExposureDetector
+Engine *-- ResilienceDetector
+Engine *-- OpportunityDetector
+Engine *-- SuitabilityDetector
+Engine --> RelationshipAgent : profile context
+Engine --> Gate : govern and rank
+Engine ..> Finding
+Gate --> Finding : mutates gate fields
+Gate ..> Relationship
+Desk --> Engine
+Desk --> ExposureDetector
+Desk ..> Finding
+
+' Detector and agent dependencies
+MonitorDetector --> Loader
+ExposureDetector --> Loader
+ResilienceDetector --> Loader
+OpportunityDetector --> Loader
+SuitabilityDetector --> Loader
+MonitorDetector ..> Finding
+ExposureDetector ..> Finding
+ResilienceDetector ..> Finding
+OpportunityDetector ..> Finding
+SuitabilityDetector ..> Finding
+Finding *-- "0..*" Evidence
+Finding *-- "0..*" Metric
+RelationshipAgent --> Loader : client + RM notes
+RelationshipAgent --> AgentRuntime
+RelationshipAgent ..> Relationship
+NarratorAgent --> AgentRuntime
+NarratorAgent ..> Finding
+NarratorAgent ..> Relationship
+NarratorAgent ..> Brief
+AgentRuntime --> Cache : cache first
+AgentRuntime ..> Anthropic : cache miss / live draft
+
+' Persistence
+Loader --> Config
+Loader --> CSV
+ApprovalStore --> Config
+ApprovalStore --> SQLite
+
+note bottom of Gate
+Relationship constraints can hold or reframe a detector finding.
+Findings are never silently discarded.
+end note
+
+note bottom of AgentRuntime
+Agents generate structured communication only.
+Financial facts are supplied by deterministic detectors.
+end note
+
+legend bottom
+|= Relationship |= Meaning |
+| *-- | Composition / owned application part |
+| --> | Runtime call or data access |
+| ..> | Dependency, contract use, or optional integration |
+endlegend
+@enduml

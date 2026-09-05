@@ -72,6 +72,12 @@ Deterministic risk detectors → Relationship-aware gate → AI narration → RM
 
 Five deterministic specialist detectors cover monitoring, exposure, resilience, opportunity and suitability; a relationship layer determines whether a result should be raised, reframed, held or treated as authorised. See the [end-to-end architecture diagram](docs/ARCHITECTURE.md), the [detailed component architecture](docs/DETAILED_ARCHITECTURE.md), [HANDOVER.md](HANDOVER.md) for the developer guide, [the data dictionary](docs/DATA_DICTIONARY.md) for data definitions, and run `python backend/verify.py` to reproduce headline claims from their source rows.
 
+### Frontend and backend class diagram
+
+The class diagram shows the main React pages, components and typed API contracts alongside the FastAPI facade, orchestration engine, deterministic detectors, AI-assisted agents, domain contracts and persistence boundaries. The editable source is available as [PlantUML](docs/foresight-rm-overview-class-diagram.puml).
+
+![Foresight RM frontend and backend overview class diagram](docs/foresight-rm-overview-class-diagram.svg)
+
 ## Code structure
 
 ```text
