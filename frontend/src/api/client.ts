@@ -220,6 +220,7 @@ export interface Position {
   sector: string
   region: string
   quantity: number
+  currency: string
   priceLocal: number
   marketValueUsd: number
   weightPct: number

@@ -111,6 +111,7 @@ def client_holdings_api(client_id: str):
             "sector": str(r["sector"]),
             "region": str(r["region"]),
             "quantity": float(r["quantity"]),
+            "currency": str(r["instrument_ccy"]),
             "priceLocal": float(r["price_local"]),
             "marketValueUsd": float(r["market_value_usd"]),
             "weightPct": float(r["weight_pct"]),

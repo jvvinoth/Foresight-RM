@@ -103,3 +103,9 @@ export function usd(n: number) {
   if (n >= 1_000_000) return `USD ${(n / 1_000_000).toFixed(1)}m`
   return `USD ${n.toLocaleString()}`
 }
+
+/** Same shape as usd(), but for a value already denominated in its own currency. */
+export function money(n: number, ccy: string) {
+  if (Math.abs(n) >= 1_000_000) return `${ccy} ${(n / 1_000_000).toFixed(1)}m`
+  return `${ccy} ${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+}

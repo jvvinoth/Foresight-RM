@@ -5,7 +5,7 @@ import { AgentStrip } from '../components/AgentStrip'
 import { FindingCard } from '../components/FindingCard'
 import { Outlook } from '../components/Outlook'
 import { Reveal } from '../components/Reveal'
-import { Eyebrow, GateBadge, usd } from '../components/ui'
+import { Eyebrow, GateBadge, money, usd } from '../components/ui'
 import { AGENTS } from '../data/agents'
 import { CLIENT_AVATARS, DEFAULT_AVATAR } from '../data/avatars'
 import { Monogram } from '../components/Monogram'
@@ -354,7 +354,7 @@ export default function Client() {
 
                   {holdings.data?.positions?.map((p) => (
                     <div
-                      key={p.instrumentId}
+                      key={`${p.portfolioId}-${p.instrumentId}`}
                       className="grid grid-cols-[1fr_120px_130px_130px_110px_90px_90px] items-center gap-4 border-b border-iron-200 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-jb-50/20 text-left"
                     >
                       <div className="min-w-0 flex flex-col">
@@ -379,9 +379,9 @@ export default function Client() {
                       </div>
 
                       <div className="tnum text-right font-mono text-[12px] text-jb-500 flex flex-col justify-center leading-tight">
-                        <span className="font-bold text-jb-700">{usd(p.priceLocal)}</span>
+                        <span className="font-bold text-jb-700">{money(p.priceLocal, p.currency)}</span>
                         {p.avgCostLocal > 0 && (
-                          <span className="text-[9.5px]">Cost: {usd(p.avgCostLocal)}</span>
+                          <span className="text-[9.5px]">Cost: {money(p.avgCostLocal, p.currency)}</span>
                         )}
                       </div>
 
