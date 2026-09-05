@@ -122,7 +122,7 @@ s.addText('Suitability calls Margarethe a critical breach: 71.46% equity against
   {x:0.7,y:1.95,w:11.9,h:0.85,fontFace:B,fontSize:16,color:MUT,lineSpacing:24,isTextBox:true,margin:0})
 s.addImage({path:S+'c-desk.png',x:1.93,y:2.95,w:9.47,h:3.95})
 foot(s,'Screen: The Desk — every objection is extracted from a dated, attributed RM note')
-s.addNotes('Suitability correctly identifies a critical breach. The Relationship agent objects on a dated client instruction, and the gate holds the finding with a reason and a revisit date. The system can overrule its own analysis when a human fact requires it.')
+s.addNotes('Suitability correctly identifies a critical breach. The Relationship agent objects on a dated client instruction, and the gate holds the finding with a reason and a dated note. Only some holds carry a revisit date; this one does not, because the instruction was open-ended. The system can overrule its own analysis when a human fact requires it.')
 
 /* 7 ─ what could happen next */
 s = p.addSlide(); s.background={color:W}
@@ -243,7 +243,7 @@ eyebrow(s,'FORESIGHT RM',0.9,0.7,'C9A94A')
 })
 s.addShape(p.ShapeType.rect,{x:0.9,y:5.30,w:11.8,h:0.014,fill:{color:'C9A94A'}})
 ;[['7 of 20','Clients where an RM note changed the answer'],
-  ['6','Findings held, each with a reason and a revisit date'],
+  ['6','Findings held, each with a reason and a dated RM note'],
   ['48','Findings this cycle, produced by six agents'],
   ['USD 8.50m','Idle cash above mandate, deployable today']
 ].forEach(([v,l],i)=>{
@@ -254,6 +254,6 @@ s.addShape(p.ShapeType.rect,{x:0.9,y:5.30,w:11.8,h:0.014,fill:{color:'C9A94A'}})
 })
 s.addText('github.com/jvvinoth/Foresight-RM',
   {x:0.9,y:6.98,w:11.5,h:0.34,fontFace:B,fontSize:13.5,color:'6E86D8',isTextBox:true,margin:0})
-s.addNotes('Close on the three sentences, then let the four numbers sit on screen through questions. Every one of them is read from the run, not asserted: seven of twenty clients had an RM note change the answer, six findings were held with a reason and a revisit date, forty-eight findings came from six agents, and USD 8.50m of idle cash sits above mandate.')
+s.addNotes('Close on the three sentences, then let the four numbers sit on screen through questions. Every one of them is read from the run, not asserted: seven of twenty clients had an RM note change the answer, six findings were held with a reason and a dated RM note, forty-eight findings came from six agents, and USD 8.50m of idle cash sits above mandate.')
 
 p.writeFile({fileName:'Foresight-RM-Pitch.pptx'}).then(f=>console.log('wrote',f))

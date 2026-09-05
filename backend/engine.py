@@ -139,7 +139,7 @@ def book_stats() -> list[dict]:
         {"label": "Clients monitored", "value": str(len(rows)), "sub": f"{SUMMARY['portfolios']} portfolios · {SUMMARY['positions']} positions"},
         {"label": "Findings this cycle", "value": str(total_findings), "sub": "Across 6 agents"},
         {"label": "Raise now", "value": str(raise_now), "sub": "Nothing blocks the conversation", "tone": "critical"},
-        {"label": "Held", "value": str(held), "sub": "With reason and revisit date", "tone": "good"},
+        {"label": "Held", "value": str(held), "sub": "With a reason and a dated note", "tone": "good"},
         {
             "label": "Idle cash above mandate",
             "value": f"USD {idle / 1e6:.2f}m",
