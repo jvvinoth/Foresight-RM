@@ -172,7 +172,33 @@ s.addImage({path:S+'c-brief.png',x:6.35,y:1.9,w:6.3,h:3.25})
 foot(s,'Screen: Conversation brief — drafted in Traditional Chinese, approved by the RM before it is sent')
 s.addNotes('Preserving the central role of the RM is in the rubric. For us it is the architecture, not a caveat.')
 
-/* 10 ─ close */
+/* 10 ─ closing the loop */
+s = p.addSlide(); s.background={color:LIGHT}
+eyebrow(s,'WHERE THIS GOES NEXT',0.7,0.55)
+title(s,'Closing the loop',0.7,0.95)
+s.addText('The tone analysis already runs. Today it reads the twenty-eight written RM notes and produces the guidance below. Point the same pipeline at a consented meeting transcript and it reads the room instead.',
+  {x:0.7,y:1.95,w:11.9,h:0.8,fontFace:B,fontSize:14,color:MUT,lineSpacing:24,isTextBox:true,margin:0})
+
+s.addShape(p.ShapeType.roundRect,{x:0.7,y:2.95,w:5.85,h:2.35,fill:{color:W},line:{color:IRON,width:1},rectRadius:0.06})
+s.addText('LIVE TODAY  ·  FROM WRITTEN NOTES',{x:1.0,y:3.15,w:5.3,h:0.3,fontFace:H,fontSize:10.5,color:GRN,charSpacing:2,isTextBox:true,margin:0})
+s.addText('“Speak with respect for his entrepreneurial conviction but be direct and grounded in numbers, gently challenging the concentration risk without dismissing his market view.”',
+  {x:1.0,y:3.55,w:5.3,h:1.5,fontFace:H,fontSize:13.5,color:NAVY,italic:true,lineSpacing:22,isTextBox:true,margin:0})
+
+s.addShape(p.ShapeType.roundRect,{x:6.75,y:2.95,w:5.85,h:2.35,fill:{color:'FBF8F0'},line:{color:GOLD,width:1},rectRadius:0.06})
+s.addText('NEXT  ·  FROM A CONSENTED TRANSCRIPT',{x:7.05,y:3.15,w:5.3,h:0.3,fontFace:H,fontSize:10.5,color:GOLD,charSpacing:2,isTextBox:true,margin:0})
+s.addText([
+  {text:'Consent captured before anything records.',options:{breakLine:true,bullet:true}},
+  {text:'Tone and concerns extracted from the meeting.',options:{breakLine:true,bullet:true}},
+  {text:'Those become constraints — so the gate holds a',options:{breakLine:true,bullet:true}},
+  {text:'    recommendation the client is not ready to hear.',options:{}}],
+  {x:7.15,y:3.55,w:5.15,h:1.5,fontFace:B,fontSize:12.5,color:MUT,paraSpaceAfter:7,isTextBox:true,margin:0})
+
+s.addText('Every other tool summarises the meeting and files a note. Ours feeds what was said back into what may be said next.',
+  {x:0.7,y:5.6,w:11.9,h:0.7,fontFace:H,fontSize:16,color:NAVY,lineSpacing:24,isTextBox:true,margin:0})
+foot(s,'No transcript exists in the supplied dataset, so none was fabricated — the analysis runs on the real notes instead')
+s.addNotes('If asked about the recorder: consent capture is built, the analysis is built and running on written notes today. The audio input is the piece we did not wire, deliberately, because there is no transcript in the dataset and we were not going to fake one.')
+
+/* 11 ─ close */
 s = p.addSlide(); s.background={color:NAVY}
 eyebrow(s,'FORESIGHT RM',0.9,0.75,'C9A94A')
 s.addText([
