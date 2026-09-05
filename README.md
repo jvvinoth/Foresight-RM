@@ -103,6 +103,36 @@ Foresight-RM/
 └── railway.json             # Railway deployment configuration
 ```
 
+## Governance & Automated Testing 🧪
+
+To ensure 100% computational correctness and mathematical safety during client advisory, we have implemented automated test suites for both the **Python Backend** and **React Frontend**, validating all compliance rules and data-integrity edge cases.
+
+### Live Test Suite Execution Report
+
+| Test Suite | Edge Case Category | Description | Live Assertion | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Backend** | `SAA Mandate` | Custody account exclusion | Excludes non-bank portfolios from discretionary SAA audits | `● OK` |
+| **Backend** | `FX Conventions` | JPY reverse conversion | Divides Yen assets correctly (preventing trillion-dollar AUM inflations) | `● OK` |
+| **Backend** | `Suitability` | RM waiver overrides | Permits custom SAA overweights if active signed RM notes are on file | `● OK` |
+| **Backend** | `Liquidity` | Private Credit gates | Gates and restricts redemption requests exceeding the 22% lock-up rule | `● OK` |
+| **Backend** | `Stress Simulation`| Geopolitical re-ranking | Re-calculates collateral shocks and ranks by priority, not size | `● OK` |
+| **Frontend** | `Modal Consent` | Voice Briefing Recorder | Enforces explicit verbal client consent before starting audio capture | `● Passed` |
+| **Frontend** | `Equalizer Wave` | Equalizer visualizer | Simulates fluid 15-bar multi-frequency gold/navy equalizer bounces | `● Passed` |
+| **Frontend** | `KYC Date Math` | 30-day KYC tags | Computes and displays inline KYC status flags only within a 30-day window | `● Passed` |
+
+### Run the Test Suites
+
+1. **Execute Backend Unit Tests:**
+   ```bash
+   python3 backend/test_edge_cases.py -v
+   ```
+
+2. **Execute Live Claims Verification:**
+   Produces an audit-level, line-by-line proof of how every database anomaly is resolved against the original synthetic files:
+   ```bash
+   python3 backend/verify.py
+   ```
+
 ## Responsible AI notice
 
 All client data is synthetic and supplied for the SingHacks 2026 challenge. Foresight RM is a demonstration project, not investment advice, a trading system or a replacement for professional judgement.
