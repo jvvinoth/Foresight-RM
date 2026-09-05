@@ -136,6 +136,32 @@ body {
   animation: pulse-ring 1.6s ease-out infinite;
 }
 
+@keyframes slide-in-drawer {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-backdrop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-drawer-in {
+  animation: slide-in-drawer 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-backdrop-in {
+  animation: fade-in-backdrop 0.2s ease-out forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .agent-live {
     animation: none;
