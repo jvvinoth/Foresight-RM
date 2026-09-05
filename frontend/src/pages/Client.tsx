@@ -52,7 +52,7 @@ export default function Client() {
 
   if (client.error) {
     return (
-      <div className="rounded border border-iron-400 bg-white p-10 text-center">
+      <div className="surface p-10 text-center">
         <p className="text-jb-600">Client not found.</p>
         <Link to="/dashboard" className="mt-3 inline-block text-jb-700 underline">
           Back to Priority Radar
@@ -65,10 +65,10 @@ export default function Client() {
   const held = list.filter((f) => f.gate === 'hold' || f.gate === 'authorised')
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-8">
       <Link
         to="/dashboard"
-        className="inline-flex w-fit items-center gap-1.5 text-[12.5px] text-jb-500 hover:text-jb-900"
+        className="inline-flex w-fit items-center gap-1.5 text-[13px] text-jb-500 hover:text-jb-900"
       >
         <ArrowLeft size={14} /> Priority Radar
       </Link>
@@ -88,7 +88,7 @@ export default function Client() {
             </div>
             
             <div className="flex flex-wrap items-baseline gap-3">
-              <h1 className="font-display text-[30px] leading-none text-jb-900">
+              <h1 className="page-title">
                 {client.data?.name ?? '…'}
               </h1>
               <span className="font-mono text-[11px] text-jb-300">{id}</span>
@@ -129,9 +129,9 @@ export default function Client() {
 
       <div className="grid gap-5 @4xl:grid-cols-[280px_1fr]">
         <aside className="flex flex-col gap-4 @4xl:sticky @4xl:top-[68px] @4xl:self-start">
-          <div className="rounded border border-iron-400 bg-white p-4">
+          <div className="surface p-6">
             <Eyebrow>The person</Eyebrow>
-            <dl className="mt-3 flex flex-col gap-2.5 text-[12.5px]">
+            <dl className="mt-3 flex flex-col gap-2.5 text-[13px]">
               {rel &&
                 (
                   [
@@ -197,17 +197,17 @@ export default function Client() {
             </div>
           )}
 
-          <div className="rounded border border-iron-400 bg-white p-4">
+          <div className="surface p-6">
             <Eyebrow>Constraints</Eyebrow>
             {rel && rel.constraints.length === 0 ? (
-              <p className="mt-2 flex items-start gap-2 text-[12.5px] text-signal-good">
+              <p className="mt-2 flex items-start gap-2 text-[13px] text-signal-good">
                 <Check size={14} className="mt-0.5 shrink-0" />
                 None on file. Nothing blocks this conversation today.
               </p>
             ) : (
               <ul className="mt-2 flex flex-col gap-2">
                 {rel?.constraints.map((c) => (
-                  <li key={c.text} className="flex items-start gap-2 text-[12.5px] text-jb-700">
+                  <li key={c.text} className="flex items-start gap-2 text-[13px] text-jb-700">
                     <Ban
                       size={13}
                       className={`mt-0.5 shrink-0 ${
@@ -263,9 +263,9 @@ export default function Client() {
 
           <div>
             {tab === 'findings' && (
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-8">
                 {findings.isLoading && (
-                  <div className="rounded border border-iron-400 bg-white px-5 py-8 text-center text-[13px] text-jb-400">
+                  <div className="surface px-5 py-8 text-center text-[13px] text-jb-400">
                     Running agents…
                   </div>
                 )}
@@ -289,7 +289,7 @@ export default function Client() {
                   </div>
                 )}
                 {!findings.isLoading && list.length === 0 && (
-                  <div className="rounded border border-iron-400 bg-white px-5 py-8 text-center text-[13px] text-jb-500">
+                  <div className="surface px-5 py-8 text-center text-[14px] text-jb-500">
                     Monitored. Nothing above threshold this cycle.
                   </div>
                 )}
@@ -300,7 +300,7 @@ export default function Client() {
               (reveal.data && reveal.data.rows.length ? (
                 <Reveal data={reveal.data} />
               ) : (
-                <div className="rounded border border-iron-400 bg-white p-8 text-center text-[13px] text-jb-500">
+                <div className="surface p-8 text-center text-[14px] text-jb-500">
                   {reveal.isLoading
                     ? 'Resolving look-through…'
                     : 'No correlated cluster above threshold for this client.'}
@@ -311,7 +311,7 @@ export default function Client() {
               (outlook.data ? (
                 <Outlook data={outlook.data} />
               ) : (
-                <div className="rounded border border-iron-400 bg-white p-8 text-center text-[13px] text-jb-500">
+                <div className="surface p-8 text-center text-[14px] text-jb-500">
                   Loading…
                 </div>
               ))}
@@ -333,7 +333,7 @@ function Brief({ id }: { id: string }) {
 
   if (isLoading || !data) {
     return (
-      <div className="rounded border border-iron-400 bg-white p-8 text-center text-[13px] text-jb-400">
+      <div className="surface p-8 text-center text-[13px] text-jb-400">
         Writing the brief…
       </div>
     )
@@ -341,9 +341,9 @@ function Brief({ id }: { id: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded border border-iron-400 bg-white p-5">
+      <div className="surface p-7">
         <Eyebrow>Narrator · pre-meeting brief</Eyebrow>
-        <div className="mt-1 font-display text-[19px] text-jb-900">Conversation brief</div>
+        <div className="section-title mt-1.5">Conversation brief</div>
 
         <div className="mt-4 flex flex-col gap-3">
           <div className="rounded border border-signal-critical/25 bg-signal-critical/5 px-4 py-3">
@@ -375,11 +375,11 @@ function Brief({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="rounded border border-iron-400 bg-white p-5">
+      <div className="surface p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <Eyebrow>Client-facing draft · {data.language}</Eyebrow>
-            <div className="mt-0.5 text-[12.5px] text-jb-500">
+            <div className="mt-0.5 text-[13px] text-jb-500">
               Generated in the client&rsquo;s reporting language. A draft until the RM approves it.
             </div>
           </div>
@@ -394,7 +394,7 @@ function Brief({ id }: { id: string }) {
                 }
               }}
               disabled={busy}
-              className="inline-flex items-center gap-1.5 rounded border border-iron-500 px-3 py-1.5 text-[12.5px] text-jb-700 hover:bg-iron-100 disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded border border-iron-500 px-3 py-1.5 text-[13px] text-jb-700 hover:bg-iron-100 disabled:opacity-60"
             >
               <Sparkles size={13} /> {busy ? 'Generating…' : draft ? 'Regenerate' : 'Generate'}
             </button>
@@ -411,7 +411,7 @@ function Brief({ id }: { id: string }) {
                   }),
                 )
               }}
-              className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-[12.5px] font-medium text-white transition-colors disabled:opacity-40 ${
+              className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-[13px] font-medium text-white transition-colors disabled:opacity-40 ${
                 approved ? 'bg-signal-good' : 'bg-jb-900 hover:bg-jb-800'
               }`}
             >
@@ -432,7 +432,7 @@ function Brief({ id }: { id: string }) {
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-2 text-[13px] text-jb-500">
+            <div className="flex items-center gap-2 text-[14px] text-jb-500">
               <Pencil size={13} /> Press Generate to draft this in {data.language}.
             </div>
           )}
@@ -466,12 +466,12 @@ function Handover({ data }: { data: HandoverData }) {
   ]
 
   return (
-    <div className="rounded border border-iron-400 bg-white p-5">
+    <div className="surface p-7">
       <Eyebrow>Relationship agent · continuity pack</Eyebrow>
-      <div className="mt-1 font-display text-[19px] text-jb-900">
+      <div className="section-title mt-1.5">
         If the RM leaves tomorrow, this does not leave with her
       </div>
-      <p className="mt-1.5 max-w-[64ch] text-[13px] text-jb-500">
+      <p className="mt-1.5 max-w-[64ch] text-[14px] text-jb-500">
         Everything a new Relationship Manager needs on day one, without reading years of files.
       </p>
 

@@ -3,7 +3,7 @@ import type { Gate, Severity } from '../types'
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-jb-500">{children}</div>
+    <div className="eyebrow-type text-jb-500">{children}</div>
   )
 }
 
@@ -18,7 +18,7 @@ export function Panel({
 }) {
   return (
     <div
-      className={`rounded border border-iron-400 bg-white ${pad ? 'p-5' : ''} ${className}`}
+      className={`surface ${pad ? 'p-7' : ''} ${className}`}
     >
       {children}
     </div>

@@ -109,14 +109,14 @@ export default function Agents() {
   const settled = step >= AGENTS.length
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="flex flex-col gap-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Eyebrow>The Desk</Eyebrow>
-          <h1 className="mt-1 font-display text-[30px] leading-tight text-jb-900">
+          <h1 className="page-title mt-2">
             Six specialists, one client
           </h1>
-          <p className="mt-2 max-w-[74ch] text-[13.5px] leading-relaxed text-jb-500">
+          <p className="lede-type mt-3 max-w-[70ch]">
             Each agent reviews the same client from its own discipline. Where two of them disagree, a
             rule decides — and the rule always lets the human fact win.
           </p>
@@ -247,7 +247,7 @@ export default function Agents() {
         <div className="flex flex-col gap-4">
           <div>
             <Eyebrow>Where they disagree · {desk.data.conflicts.length}</Eyebrow>
-            <p className="mt-1 max-w-[74ch] text-[13px] text-jb-500">
+            <p className="mt-1 max-w-[74ch] text-[14px] text-jb-500">
               A detector states a finding on the evidence. Relationship objects on the evidence in
               the notes. Neither of them is wrong.
             </p>
@@ -258,7 +258,7 @@ export default function Agents() {
         </div>
       )}
 
-      <div className="rounded border border-jb-300 bg-jb-50 p-6">
+      <div className="rounded border border-jb-200 bg-jb-50 p-8">
         <Eyebrow>The rule at this table</Eyebrow>
         <p className="mt-2 max-w-[70ch] font-display text-[19px] leading-relaxed text-jb-900">
           Relationship is the only agent that can veto another. A financial finding can be suppressed
@@ -277,7 +277,7 @@ export default function Agents() {
 function Conflict({ c, clientId }: { c: DeskConflict; clientId: string }) {
   const v = VERDICT_STYLE[c.verdict.gate]
   return (
-    <div className="overflow-hidden rounded border border-iron-400 bg-white">
+    <div className="overflow-hidden surface">
       <div className="grid @3xl:grid-cols-2">
         <div className="border-b border-iron-300 p-5 @3xl:border-b-0 @3xl:border-r">
           <div className="flex items-center gap-2">

@@ -166,7 +166,7 @@ export default function Dashboard() {
     return (
       <div className="rounded border border-signal-critical/30 bg-signal-critical/5 p-6 text-[13.5px] text-jb-800">
         Could not reach the API. Start it with{' '}
-        <code className="font-mono text-[12.5px]">
+        <code className="font-mono text-[13px]">
           cd backend &amp;&amp; uvicorn main:app --port 8010
         </code>
         .
@@ -175,12 +175,12 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Eyebrow>{data?.rm.desk ?? 'Loading desk'}</Eyebrow>
-          <h1 className="mt-1 font-display text-[30px] leading-tight text-jb-900">Priority Radar</h1>
-          <p className="mt-1 text-[13.5px] text-jb-500">
+          <h1 className="page-title mt-2">Priority Radar</h1>
+          <p className="lede-type mt-2">
             {data?.rm.clients ?? 20} clients, ranked by what needs attention today — not by size.
           </p>
         </div>
@@ -230,7 +230,7 @@ export default function Dashboard() {
 
       <div className="thin-scroll flex gap-px overflow-x-auto rounded border border-iron-400 bg-iron-400">
         {(stats ?? Array.from({ length: 5 }, () => null)).map((s, i) => (
-          <div key={s?.label ?? i} className="flex min-w-[150px] flex-1 shrink-0 flex-col gap-1 bg-white px-5 py-4">
+          <div key={s?.label ?? i} className="flex min-w-[196px] flex-1 shrink-0 flex-col gap-1.5 bg-white px-6 py-5">
             <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
               {s?.label ?? '—'}
             </div>
@@ -380,7 +380,7 @@ export default function Dashboard() {
         <AgentStrip activity={activity} active={filter} onSelect={setFilter} />
       </div>
 
-      <div className="overflow-hidden rounded border border-iron-400 bg-white">
+      <div className="overflow-hidden surface">
         <div className="grid grid-cols-[36px_1fr_120px_128px_112px] items-center gap-4 border-b border-iron-400 bg-iron-100 px-5 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
           <span>#</span>
           <span>Client and reason</span>
@@ -420,10 +420,10 @@ export default function Dashboard() {
                   </span>
                 )}
               </span>
-              <span className="mt-0.5 block truncate text-[12.5px] text-jb-500">{c.reason}</span>
+              <span className="mt-0.5 block truncate text-[13px] text-jb-500">{c.reason}</span>
             </span>
 
-            <span className="tnum text-right font-mono text-[12.5px] text-jb-700">
+            <span className="tnum text-right font-mono text-[13px] text-jb-700">
               {usd(c.aumUsd)}
             </span>
 

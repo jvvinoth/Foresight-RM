@@ -35,7 +35,7 @@ export function AgentStrip({
       {!compact && (
         <button
           onClick={() => onSelect?.('all')}
-          className={`flex min-w-[96px] shrink-0 flex-col justify-center gap-1 px-4 py-3 text-left transition-colors ${
+          className={`flex min-w-[108px] shrink-0 flex-col justify-center gap-1 px-4 py-3 text-left transition-colors ${
             active === 'all' ? 'bg-jb-900 text-white' : 'bg-white hover:bg-jb-50'
           }`}
         >
@@ -52,7 +52,7 @@ export function AgentStrip({
           <button
             key={a.id}
             onClick={() => onSelect?.(a.id)}
-            className={`group relative flex min-w-[124px] flex-1 shrink-0 flex-col gap-1.5 px-4 py-3 text-left transition-colors ${
+            className={`group relative flex min-w-[142px] flex-1 shrink-0 flex-col gap-1.5 px-4 py-3 text-left transition-colors ${
               isActive ? 'bg-jb-900 text-white' : 'bg-white hover:bg-jb-50'
             }`}
           >

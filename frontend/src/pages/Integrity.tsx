@@ -6,11 +6,11 @@ export default function Integrity() {
   const { data, isLoading } = useIntegrity()
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <div>
         <Eyebrow>Governance</Eyebrow>
-        <h1 className="mt-1 font-display text-[30px] leading-tight text-jb-900">Data integrity</h1>
-        <p className="mt-2 max-w-[74ch] text-[13.5px] leading-relaxed text-jb-500">
+        <h1 className="page-title mt-2">Data integrity</h1>
+        <p className="lede-type mt-3 max-w-[70ch]">
           The dataset contains deliberate artefacts of the kind found in production banking data. A
           system that handles them silently is indistinguishable from one that fell into them. These
           are the ones we found, what a naive read produces, what we report instead, and where in the
@@ -18,7 +18,7 @@ export default function Integrity() {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded border border-iron-400 bg-white">
+      <div className="overflow-x-auto surface">
         <table className="w-full min-w-[900px] border-collapse text-[13px]">
           <thead>
             <tr className="bg-iron-100 text-left font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
@@ -69,7 +69,7 @@ export default function Integrity() {
           Every headline figure in this application is printed with its source rows by a single
           command, so any claim can be checked against the supplied dataset in seconds.
         </p>
-        <pre className="mt-3 overflow-x-auto rounded border border-jb-200 bg-white px-4 py-3 font-mono text-[12.5px] text-jb-800">
+        <pre className="mt-3 overflow-x-auto rounded border border-jb-200 bg-white px-4 py-3 font-mono text-[13px] text-jb-800">
           {data?.verify ?? 'python backend/verify.py'}
         </pre>
       </div>
