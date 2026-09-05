@@ -18,14 +18,16 @@ import {
   useHandover,
   useOutlook,
   useReveal,
+  useHoldings,
   type Handover as HandoverData,
 } from '../api/client'
 
-type Tab = 'findings' | 'reveal' | 'outlook' | 'brief' | 'handover'
+type Tab = 'findings' | 'reveal' | 'outlook' | 'brief' | 'handover' | 'holdings'
 
 const TABS: { id: Tab; label: string; note: string }[] = [
   { id: 'findings', label: 'All findings', note: 'Every agent' },
   { id: 'reveal', label: 'Exposure', note: 'Look-through' },
+  { id: 'holdings', label: 'Portfolio Holdings', note: 'Asset positions' },
   { id: 'outlook', label: 'Outlook', note: 'What could happen next' },
   { id: 'brief', label: 'Conversation brief', note: 'What to say' },
   { id: 'handover', label: 'Handover', note: 'Continuity' },
@@ -44,6 +46,7 @@ export default function Client() {
   const reveal = useReveal(id, tab === 'reveal')
   const outlook = useOutlook(id, tab === 'outlook')
   const handover = useHandover(id, tab === 'handover')
+  const holdings = useHoldings(id)
 
   const rel = client.data?.relationship
   const list = findings.data?.findings ?? []
@@ -323,6 +326,93 @@ export default function Client() {
 
             {tab === 'brief' && <Brief id={id} />}
             {tab === 'handover' && handover.data && <Handover data={handover.data} />}
+
+            {tab === 'holdings' && (
+              <div className="flex flex-col gap-6">
+                <div className="surface overflow-hidden rounded border border-iron-400 bg-white">
+                  <div className="grid grid-cols-[1fr_120px_130px_130px_110px_90px_90px] items-center gap-4 border-b border-iron-400 bg-iron-100 px-5 py-3 font-mono text-[9.5px] uppercase tracking-[0.12em] text-jb-400">
+                    <span>Instrument & Class</span>
+                    <span>Portfolio</span>
+                    <span className="text-right">Quantity</span>
+                    <span className="text-right">Avg Cost / Price</span>
+                    <span className="text-right">Market Value</span>
+                    <span className="text-right">Weight</span>
+                    <span className="text-right">Service</span>
+                  </div>
+
+                  {holdings.isLoading && (
+                    <div className="px-5 py-12 text-center text-[13px] text-jb-400">
+                      Fetching client asset inventory…
+                    </div>
+                  )}
+
+                  {!holdings.isLoading && (!holdings.data?.positions || holdings.data.positions.length === 0) && (
+                    <div className="px-5 py-12 text-center text-[13px] text-jb-400">
+                      No assets found for this portfolio.
+                    </div>
+                  )}
+
+                  {holdings.data?.positions?.map((p) => (
+                    <div
+                      key={p.instrumentId}
+                      className="grid grid-cols-[1fr_120px_130px_130px_110px_90px_90px] items-center gap-4 border-b border-iron-200 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-jb-50/20 text-left"
+                    >
+                      <div className="min-w-0 flex flex-col">
+                        <span className="text-[13.5px] font-semibold text-jb-900 leading-snug truncate">
+                          {p.instrumentName}
+                        </span>
+                        <div className="flex items-center gap-1.5 mt-0.5 font-mono text-[9.5px] text-jb-400">
+                          <span>{p.instrumentId}</span>
+                          <span>·</span>
+                          <span className="px-1.5 py-0.5 rounded-sm bg-jb-50 text-jb-500 border border-jb-200 text-[8.5px] uppercase tracking-wider font-semibold">
+                            {p.assetClass}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="text-[12.5px] text-jb-500 truncate font-mono" title={p.portfolioName}>
+                        {p.portfolioId}
+                      </div>
+
+                      <div className="tnum text-right font-mono text-[12.5px] text-jb-700">
+                        {p.quantity.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+                      </div>
+
+                      <div className="tnum text-right font-mono text-[12px] text-jb-500 flex flex-col justify-center leading-tight">
+                        <span className="font-bold text-jb-700">{usd(p.priceLocal)}</span>
+                        {p.avgCostLocal > 0 && (
+                          <span className="text-[9.5px]">Cost: {usd(p.avgCostLocal)}</span>
+                        )}
+                      </div>
+
+                      <div className="tnum text-right font-mono text-[13px] font-bold text-jb-900 leading-none">
+                        {usd(p.marketValueUsd)}
+                      </div>
+
+                      <div className="tnum text-right font-mono text-[12.5px] text-jb-700">
+                        {p.weightPct.toFixed(2)}%
+                      </div>
+
+                      <div className="flex justify-end pr-1">
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border uppercase tracking-wider font-bold shrink-0 ${
+                          p.serviceModel === 'Discretionary'
+                            ? 'bg-signal-gold/10 text-signal-gold border-signal-gold/20'
+                            : p.serviceModel === 'Advisory'
+                              ? 'bg-jb-100 text-jb-700 border-jb-200'
+                              : 'bg-iron-100 text-jb-500 border-iron-300'
+                        }`}>
+                          {p.serviceModel}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 text-[11.5px] text-jb-400 text-left">
+                  * Position valuations represent the snapshot state. Servicing and custody models exclude non-bank managed assets from discretionary SAA compliance logic.
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </div>

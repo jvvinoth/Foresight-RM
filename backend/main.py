@@ -94,6 +94,33 @@ def reveal(client_id: str):
     return exposure.reveal(client_id)
 
 
+@app.get("/api/clients/{client_id}/holdings")
+def client_holdings_api(client_id: str):
+    import loader
+    _client_or_404(client_id)
+    df = loader.client_holdings(client_id)
+    positions = []
+    for _, r in df.iterrows():
+        positions.append({
+            "portfolioId": str(r["portfolio_id"]),
+            "portfolioName": str(r["portfolio_name"]),
+            "instrumentId": str(r["instrument_id"]),
+            "instrumentName": str(r["instrument_name"]),
+            "assetClass": str(r["asset_class"]),
+            "subAssetClass": str(r["sub_asset_class"]),
+            "sector": str(r["sector"]),
+            "region": str(r["region"]),
+            "quantity": float(r["quantity"]),
+            "priceLocal": float(r["price_local"]),
+            "marketValueUsd": float(r["market_value_usd"]),
+            "weightPct": float(r["weight_pct"]),
+            "avgCostLocal": float(r["avg_cost_local"]) if r["avg_cost_local"] == r["avg_cost_local"] else 0.0,
+            "serviceModel": str(r["service_model"])
+        })
+    positions.sort(key=lambda x: -x["marketValueUsd"])
+    return {"positions": positions}
+
+
 @app.get("/api/clients/{client_id}/outlook")
 def outlook(client_id: str):
     _client_or_404(client_id)

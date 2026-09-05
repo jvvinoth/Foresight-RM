@@ -210,6 +210,30 @@ export const useIntegrity = () =>
     queryFn: () => get<{ traps: Trap[]; verify: string }>('/integrity'),
   })
 
+export interface Position {
+  portfolioId: string
+  portfolioName: string
+  instrumentId: string
+  instrumentName: string
+  assetClass: string
+  subAssetClass: string
+  sector: string
+  region: string
+  quantity: number
+  priceLocal: number
+  marketValueUsd: number
+  weightPct: number
+  avgCostLocal: number
+  serviceModel: string
+}
+
+export const useHoldings = (id: string) =>
+  useQuery({
+    queryKey: ['holdings', id],
+    queryFn: () => get<{ positions: Position[] }>(`/clients/${id}/holdings`),
+    enabled: Boolean(id),
+  })
+
 export async function generateDraft(id: string) {
   const res = await fetch(`/api/clients/${id}/draft`, {
     method: 'POST',
