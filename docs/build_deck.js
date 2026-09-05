@@ -97,19 +97,19 @@ s.addNotes('The information existed. It sat in three places that never meet. She
 s = p.addSlide(); s.background={color:W}
 eyebrow(s,'WHAT WE BUILT',0.7,0.55)
 title(s,'Six agents read all twelve files together',0.7,0.95)
-s.addImage({path:S+'c-stats.png',x:0.7,y:2.05,w:11.9,h:2.81})
+s.addImage({path:S+'c-stats.png',x:0.7,y:2.6,w:11.9,h:1.07})
 const ag=[['monitor','01 MONITOR','what changed'],['exposure','02 EXPOSURE','what they really hold'],
           ['resilience','03 RESILIENCE','what breaks first'],['opportunity','04 OPPORTUNITY','what is unclaimed'],
           ['suitability','05 SUITABILITY','breach or authorised'],['relationship','06 RELATIONSHIP','how to say it']]
 ag.forEach(([ic,a,b2],i)=>{
   const x=0.7+i*1.985, chair=i===5
-  s.addShape(p.ShapeType.ellipse,{x,y:5.05,w:0.52,h:0.52,fill:{color:chair?'F6EFDC':'E6EBF9'}})
-  icon(s,ic+(chair?'-gold':'-navy'),x+0.115,5.165,0.29)
-  s.addText(a,{x,y:5.68,w:1.92,h:0.26,fontFace:H,fontSize:11,color:chair?GOLD:INK,charSpacing:1,isTextBox:true,margin:0})
-  s.addText(b2,{x,y:5.95,w:1.92,h:0.5,fontFace:B,fontSize:12.5,color:MUT,isTextBox:true,margin:0})
+  s.addShape(p.ShapeType.ellipse,{x,y:4.35,w:0.52,h:0.52,fill:{color:chair?'F6EFDC':'E6EBF9'}})
+  icon(s,ic+(chair?'-gold':'-navy'),x+0.115,4.465,0.29)
+  s.addText(a,{x,y:4.98,w:1.92,h:0.26,fontFace:H,fontSize:11,color:chair?GOLD:INK,charSpacing:1,isTextBox:true,margin:0})
+  s.addText(b2,{x,y:5.25,w:1.92,h:0.5,fontFace:B,fontSize:12.5,color:MUT,isTextBox:true,margin:0})
 })
 s.addText('Detectors compute. Agents narrate. No agent originates a number.',
-  {x:0.7,y:6.6,w:11.9,h:0.4,fontFace:H,fontSize:16.5,color:NAVY,charSpacing:1,isTextBox:true,margin:0})
+  {x:0.7,y:6.15,w:11.9,h:0.4,fontFace:H,fontSize:16.5,color:NAVY,charSpacing:1,isTextBox:true,margin:0})
 
 s.addNotes('Six agents, twelve files. Every figure computed in Python. The model only writes sentences and translates.')
 
@@ -222,13 +222,11 @@ s.addText([
   {text:'    recommendation the client is not ready to hear.',options:{}}],
   {x:7.15,y:3.55,w:5.15,h:1.5,fontFace:B,fontSize:12.5,color:MUT,paraSpaceAfter:7,isTextBox:true,margin:0})
 
-s.addImage({path:S+'c-recorder.png',x:1.35,y:5.45,w:1.06,h:1.34})
-s.addImage({path:S+'c-recording.png',x:2.6,y:5.45,w:0.93,h:1.34})
-s.addImage({path:S+'c-recorder-saved.png',x:3.72,y:5.45,w:0.93,h:1.34})
-s.addText('consent  ·  capture  ·  filed',
-  {x:1.35,y:6.85,w:3.3,h:0.3,fontFace:H,fontSize:11,color:MUT,charSpacing:2,align:'center',isTextBox:true,margin:0})
+s.addImage({path:S+'c-recorder.png',x:0.7,y:5.5,w:1.03,h:1.3})
+s.addText('Consent is captured and logged before the microphone opens.',
+  {x:1.95,y:5.55,w:4.4,h:0.6,fontFace:B,fontSize:13.5,color:MUT,lineSpacing:20,isTextBox:true,margin:0})
 s.addText('Every other tool summarises the meeting and files a note.\nOurs feeds what was said back into what may be said next.',
-  {x:5.3,y:5.6,w:7.3,h:1.0,fontFace:H,fontSize:17.5,color:NAVY,lineSpacing:28,isTextBox:true,margin:0})
+  {x:6.6,y:5.5,w:6.0,h:1.0,fontFace:H,fontSize:16.5,color:NAVY,lineSpacing:26,isTextBox:true,margin:0})
 foot(s,'No transcript exists in the supplied dataset, so none was fabricated — the analysis runs on the real notes instead')
 s.addNotes('If asked about the recorder: consent capture is built, the analysis is built and running on written notes today. The audio input is the piece we did not wire, deliberately, because there is no transcript in the dataset and we were not going to fake one.')
 
