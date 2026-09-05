@@ -117,6 +117,15 @@ def book_stats() -> list[dict]:
     raise_now = sum(1 for r in rows if r["gate"] == "raise")
     held = sum(1 for r in rows if r["gate"] == "hold")
 
+    # What the unstructured file is doing. Everyone gets the same 28 notes;
+    # almost nobody reads them against the numbers, so this is worth saying.
+    contested = {"reframe", "hold", "authorised"}
+    changed = sum(
+        1
+        for cid in clients["client_id"]
+        if any(f.gate in contested for f in run_client(cid)["findings"])
+    )
+
     idle = 0.0
     for cid in clients["client_id"]:
         for f in run_client(cid)["findings"]:
@@ -134,6 +143,12 @@ def book_stats() -> list[dict]:
             "label": "Idle cash above mandate",
             "value": f"USD {idle / 1e6:.2f}m",
             "sub": "Deployable today",
+            "tone": "gold",
+        },
+        {
+            "label": "Notes changed the answer",
+            "value": f"{changed} of {len(rows)}",
+            "sub": f"{SUMMARY['notes']} RM notes read this cycle",
             "tone": "gold",
         },
     ]
